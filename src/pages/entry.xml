@@ -1,0 +1,7 @@
+<view class="container">
+  <view>
+    <text class="link paragraph" catchtap="handleDoubanAuth">登录豆瓣</text>
+    <text class="link paragraph" catchtap="handleAuthorize">授权</text>
+    <text class="link paragraph" catchtap="handleOpenSetting">更改授权</text>
+  </view>
+</view>

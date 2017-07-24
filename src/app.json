@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/entry",
+    "pages/douban-auth",
+    "pages/index/finished",
+    "pages/ui/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#515151",
+    "navigationBarTitleText": "TODO LIST",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
+  }
+}

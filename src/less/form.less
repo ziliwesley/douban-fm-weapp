@@ -1,0 +1,32 @@
+@import "variables.less";
+
+.form {
+  margin: @default-margin;
+}
+
+.input {
+  border: 1px solid #eee;
+  padding: @form-control-padding;
+  line-height: 32px;
+  height: 32px;
+  min-height: 32px;
+  font-size: @font-size-normal;
+}
+
+.input-group {
+  .input {
+    &:first-child:not(:last-child) {
+      border-bottom: none;
+    }
+
+    &:first-child {
+      border-top-left-radius: @default-radius;
+      border-top-right-radius: @default-radius;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: @default-radius;
+      border-bottom-right-radius: @default-radius;
+    }
+  }
+}

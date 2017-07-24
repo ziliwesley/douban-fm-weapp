@@ -1,0 +1,27 @@
+@import "variables.less";
+
+.btn {
+  margin-top: @default-margin;
+  border-radius: @default-radius;
+
+  font-size: @font-size-normal;
+
+  // 微信默认按下时 class
+  &.button-hover {
+    opacity: .9;
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
+.btn-primary {
+  background-color: #63c284;
+  color: #fcfcfc;
+
+  &[disabled] {
+    color: #fcfcfc !important;
+    background-color: #a1dab5 !important;
+  }
+}
