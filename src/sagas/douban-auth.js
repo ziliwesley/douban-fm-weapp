@@ -47,7 +47,9 @@ export function* loginDouban({ payload: { username, password } }) {
             username,
             password);
 
-        yield put(loginDoubanSuccess(res));
+        yield put(loginDoubanSuccess(res, {
+            loginName: username
+        }));
 
         yield put(showToast({
             title: '登录成功',

@@ -13,7 +13,10 @@ export const loginDouban = createAction(DOUBAN_LOGIN);
 export const logoutDouban = createAction(DOUBAN_LOGOUT);
 
 // 登录成功
-export const loginDoubanSuccess = createAction(DOUBAN_LOGIN_SUCCESS);
+export const loginDoubanSuccess = createAction(DOUBAN_LOGIN_SUCCESS,
+    payload => payload,
+    // Transfer request meta
+    (payload, meta) => meta);
 
 // 登录失败
 export const loginDoubanFailure = createAction(DOUBAN_LOGIN_FAILURE);
@@ -21,6 +24,7 @@ export const loginDoubanFailure = createAction(DOUBAN_LOGIN_FAILURE);
 // 初始state
 export const INITIAL_STATE = immutable({
     accessToken: null,
+    loginName: null,
     userName: null,
     userId: null,
     error: null,
@@ -38,6 +42,7 @@ export default handleActions({
         state.merge({
             fetching: false,
             error: null,
+            loginName: action.meta.loginName,
             accessToken: action.payload['access_token'],
             userName: action.payload['douban_user_name'],
             userId: action.payload['douban_user_id']

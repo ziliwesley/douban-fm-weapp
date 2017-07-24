@@ -53,6 +53,16 @@ class DoubanAuth extends Component {
             password
         });
     }
+
+    onLoad() {
+        const username = this.props.doubanAuth.loginName;
+
+        if (username) {
+            this.setState({
+                username
+            })
+        }
+    }
 }
 
 export default connect(
