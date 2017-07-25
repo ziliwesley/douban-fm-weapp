@@ -7,9 +7,8 @@
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#515151",
-    "navigationBarTitleText": "TODO LIST",
-    "navigationBarTextStyle": "white",
+    "navigationBarBackgroundColor": "#fcfcfc",
+    "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true
   }
 }

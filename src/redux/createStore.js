@@ -3,7 +3,6 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import createLogger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import reduxPersist from '../config/redux-persist';
-import * as StartupActions from './startup';
 
 /**
  * 创建store
@@ -37,7 +36,10 @@ export default function (rootReducer, rootSaga) {
   const store = createStore(rootReducer, compose(...enhancers));
 
   // persist
-  persistStore(store, reduxPersist, () => store.dispatch(StartupActions.startup()));
+  persistStore(store, reduxPersist, () => {
+    // startup script
+    console.log('started');
+  });
 
   // kick off root saga
   sagaMiddleware.run(rootSaga);

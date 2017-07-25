@@ -1,4 +1,5 @@
 {
   "navigationBarTitleText": "豆瓣 FM",
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false,
+  "backgroundColor": "#f5f5f5"
 }

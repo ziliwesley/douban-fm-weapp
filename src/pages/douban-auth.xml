@@ -22,5 +22,6 @@
     <block wx:if="{{props.doubanAuth.error}}">
       <text class="paragraph comment error">{{props.doubanAuth.error}}</text>
     </block>
+    <block wx:else></block>
   </view>
 </view>
