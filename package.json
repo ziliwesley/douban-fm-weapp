@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "labrador build",
+    "start": "labrador watch",
+    "build": "labrador build -m --ignore-minify-page",
     "flow": "flow",
     "eslint": "eslint ./"
   },
