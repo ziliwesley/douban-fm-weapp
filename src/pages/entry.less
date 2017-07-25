@@ -1,7 +1,23 @@
 @import "../less/variables.less";
+@import "../less/mixins.less";
+
+@header-height: 64px;
+
+@keyframes rotate-90 {
+  0% {
+    transform: rotate(270deg);
+  }
+  50% {
+    transform: rotate(315deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 .entry-page {
   background-color: @default-background-color;
+  font-family: @weuiFontDefault;
 
   .form .input {
     background-color: #fff;
@@ -10,5 +26,112 @@
   .paragraph.comment {
     font-size: @font-size-small;
     text-align: right;
+  }
+
+  .header {
+    background-color: @navigation-bar-background-color;
+    position: fixed;
+    width: 100%;
+    height: @header-height;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    // Hide from view
+    transform: translate(0, -@header-height);
+    transition: all ease-in-out .3s;
+
+    .bottom-shadow();
+
+    .user-avatar {
+      margin-left: 16px;
+      width: 48px;
+      height: 48px;
+      border-radius: @default-radius;
+      border: 1px solid @default-background-color;
+    }
+
+    .user-identity {
+      display: flex;
+      margin-left: 16px;
+      flex-direction: column;
+
+      .wechat-nickname {
+        font-size: @font-size-normal;
+        color: @default-text-color;
+        line-height: 20px;
+      }
+
+      .douban-status {
+        font-size: @font-size-x-small;
+        color: @color-comment;
+        margin-top: 4px;
+        line-height: 20px;
+      }
+
+      .douban-label {
+        background: @color-primary;
+        color: @navigation-bar-background-color;
+        padding: 4px;
+        margin-right: 4px;
+
+        &.warning {
+          color: @color-warning;
+          background: transparent;
+          padding: 4px 0;
+        }
+      }
+    }
+
+    // 用户操作栏
+    .user-actions {
+      display: flex;
+      margin-left: 16px;
+      padding-right: 16px;
+      justify-content: flex-end;
+      flex-grow: 1;
+      transform: translate(0, 64px);
+      transition: transform ease-in-out .3s;
+
+      .icon {
+        font-size: 20px;
+        margin: 0 0 0 8rpx;
+        padding: 8px;
+        color: @default-text-color;
+        background: transparent;
+        border: none;
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .content {
+    margin-top: 16px;
+    transition: all ease-in-out .3s;
+  }
+
+  &.authorized {
+    .header {
+      // Move back to view
+      transform: translate(0, 0);
+
+      .user-actions {
+        transform: translate(0, 0);
+
+        .icon.icon-cog {
+          animation: rotate-90 .3s linear;
+        }
+      }
+    }
+
+    .content {
+      margin-top: @header-height + 16px;
+    }
+  }
+
+  .content {
+    min-height: 100vh;
   }
 }

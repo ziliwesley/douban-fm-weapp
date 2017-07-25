@@ -1,9 +1,8 @@
 {
   "pages": [
     "pages/entry",
-    "pages/douban-auth",
-    "pages/index/finished",
-    "pages/ui/index"
+    "pages/setting",
+    "pages/douban-auth"
   ],
   "window": {
     "backgroundTextStyle": "dark",

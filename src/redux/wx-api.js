@@ -5,9 +5,11 @@ export const WX_AUTHORIZE = 'WX_AUTHORIZE';
 export const WX_AUTHORIZE_SUCCESS = 'WX_AUTHORIZE_SUCCESS';
 export const WX_AUTHORIZE_FAILURE = 'WX_AUTHORIZE_FAILURE';
 
-export const WX_OPEN_SETTING = 'WX_OPEN_SETTING'
-export const WX_OPEN_SETTING_SUCCESS = 'WX_OPEN_SETTING_SUCCESS'
-export const WX_OPEN_SETTING_FAILURE = 'WX_OPEN_SETTING_FAILURE'
+export const WX_OPEN_SETTING = 'WX_OPEN_SETTING';
+export const WX_OPEN_SETTING_SUCCESS = 'WX_OPEN_SETTING_SUCCESS';
+export const WX_OPEN_SETTING_FAILURE = 'WX_OPEN_SETTING_FAILURE';
+
+export const WX_CLEAR_STORAGE = 'WX_CLEAR_STORAGE';
 
 // 获取用户授权
 export const authorize = createAction(WX_AUTHORIZE);
@@ -26,3 +28,15 @@ export const openSettingSuccess = createAction(WX_OPEN_SETTING_SUCCESS);
 
 // 调起设置界面失败
 export const openSettingFailure = createAction(WX_OPEN_SETTING_FAILURE);
+
+// 清理本地数据缓存
+// TODO make a saga for this, and trigger global reset
+ export const clearStorage = createAction(WX_CLEAR_STORAGE,
+    () => {
+        wx.clearStorageSync();
+
+        // NOTE This is actualy async
+        wx.wx.reLaunch({
+            url: 'entry'
+        });
+    });

@@ -16,13 +16,15 @@ export const getUserInfoFailure = createAction(GET_USER_INFO_FAILURE);
 
 // 初始state
 export const INITIAL_STATE = immutable({
-    nickName: '',
-    avatarUrl: '',
+    nickName: '尚未获得微信用户授权',
+    // Avatar placeholder
+    avatarUrl: '/images/avatar-placeholder.png',
     gender: 0,
     province: '',
     city: '',
     country: '',
-    requesting: false
+    requesting: false,
+    authorized: false
 });
 
 export default handleActions({
@@ -39,10 +41,12 @@ export default handleActions({
             province: action.payload.province,
             city: action.payload.city,
             country: action.payload.country,
-            requesting: false
+            requesting: false,
+            authorized: true
         }),
     GET_USER_INFO_FAILURE: state =>
         state.merge({
-            requesting: false
+            requesting: false,
+            authorized: false
         })
 }, INITIAL_STATE);

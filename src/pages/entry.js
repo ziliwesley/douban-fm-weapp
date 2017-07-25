@@ -4,28 +4,43 @@ import { bindActionCreators } from 'redux';
 
 import { navigateTo } from '../redux/wx-ui.js';
 import { getUserInfo } from '../redux/wx-auth.js';
-import { openSetting } from '../redux/wx-api.js';
 
 class EntryPage extends Component {
+    static propTypes = {
+        isAuthorized: PropTypes.bool
+    }
+
+    state = {
+        isAuthorized: false
+    }
 
     handleDoubanAuth = () => {
         this.props.navigateTo('douban-auth');
     }
 
-    handleAuthorize = () => {
+    handleChangeAppSetting = () => {
+        this.props.navigateTo('setting');
+    }
+
+    onLoad() {
+        // 初次渲染完成后请求授权获取用户信息
         this.props.getUserInfo('scope.userInfo');
     }
 
-    handleOpenSetting = () => {
-        this.props.openSetting();
+    onUpdate(props) {
+        const { wechatAuth } = props;
+
+        // TODO check if wechat will do diff operations
+        this.setState({
+            isAuthorized: wechatAuth.authorized
+        });
     }
 }
 
 export default connect(
-    () => ({}),
+    ({ doubanAuth, wechatAuth }) => ({ doubanAuth, wechatAuth }),
     (dispatch) => bindActionCreators({
         navigateTo,
-        getUserInfo,
-        openSetting
+        getUserInfo
     }, dispatch)
 )(EntryPage);

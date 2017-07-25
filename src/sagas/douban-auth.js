@@ -1,6 +1,6 @@
 import { takeLatest, effects } from 'redux-saga';
 
-import { showToast, navigateTo } from '../redux/wx-ui.js';
+import { showToast, navigateBack } from '../redux/wx-ui.js';
 import request from '../utils/douban-request.js';
 
 const { put, call } = effects;
@@ -57,7 +57,7 @@ export function* loginDouban({ payload: { username, password } }) {
             duration: 1500
         }));
         // 返回首页
-        yield put(navigateTo('entry'));
+        yield put(navigateBack());
     } catch (err) {
         yield put(loginDoubanFailure(err));
 

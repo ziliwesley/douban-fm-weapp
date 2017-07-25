@@ -1,0 +1,56 @@
+@import "variables.less";
+
+.cells {
+  position: relative;
+  margin-top: 16px;
+  background-color: #fff;
+  line-height: 20px;
+  font-size: @font-size-normal;
+  border-top: 1px solid #f3f3f3;
+  border-bottom: 1px solid #f3f3f3;
+  color: @default-text-color;
+
+  .cell {
+    display: flex;
+    align-items: center;
+    padding: 12px 8px;
+    border-top: 1px solid #f3f3f3;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &.action::after {
+      flex-grow: 1;
+      text-align: right;
+      font-family: "icomoon";
+      content: "\e909";
+    }
+  }
+}
+
+
+button.cell {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+
+  &.button-hover {
+    background-color: #dedede;
+  }
+
+  &::after {
+    // Override button's ":after"
+    width: inherit;
+    width: inherit;
+    position: relative;
+    top: auto;
+    left: auto;
+    border: none;
+    transform: scale(1);
+    border-radius: 0;
+  }
+}

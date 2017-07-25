@@ -1,0 +1,10 @@
+<view class="setting-page container">
+  <view class="cells">
+    <button class="cell action" catchtap="handleDoubanAuth">登录豆瓣账户</button>
+  </view>
+  <view class="cells">
+    <button class="cell action" catchtap="handleGetUserInfo">刷新微信账户信息</button>
+    <button class="cell action" catchtap="handleOpenSetting">修改小程序授权</button>
+    <button class="cell action" catchtap="handleClearStorage">清空本地数据</button>
+  </view>
+</view>

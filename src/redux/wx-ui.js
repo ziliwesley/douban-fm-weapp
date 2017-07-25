@@ -14,6 +14,14 @@ export const navigateTo = createAction(NAVIGATE_TO,
         return pathname;
     });
 
+// 页面返回
+export const navigateBack = createAction(NAVIGATE_TO,
+    (delta = 1) => {
+        wx.navigateBack({ delta });
+        // For subsequent action or saga watcher
+        return { delta };
+    });
+
 // 显示消息提示框
 export const showToast = createAction(SHOW_TOAST,
     options => {
