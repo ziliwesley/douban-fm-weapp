@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import immutable from 'seamless-immutable';
 
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const GET_USER_INFO_SUCCESS = 'GET_USER_INFO_SUCCESS';
@@ -15,7 +14,7 @@ export const getUserInfoSuccess = createAction(GET_USER_INFO_SUCCESS);
 export const getUserInfoFailure = createAction(GET_USER_INFO_FAILURE);
 
 // 初始state
-export const INITIAL_STATE = immutable({
+export const INITIAL_STATE = {
     nickName: '尚未获得微信用户授权',
     // Avatar placeholder
     avatarUrl: '/images/avatar-placeholder.png',
@@ -25,16 +24,18 @@ export const INITIAL_STATE = immutable({
     country: '',
     requesting: false,
     authorized: false
-});
+};
 
 export default handleActions({
     // 获取用户信息
     GET_USER_INFO: state =>
-        state.merge({
+        ({
+            ...state,
             requesting: true
         }),
     GET_USER_INFO_SUCCESS: (state, action) =>
-        state.merge({
+        ({
+            ...state,
             nickName: action.payload.nickName,
             avatarUrl: action.payload.avatarUrl,
             gender: action.payload.gender,
@@ -45,7 +46,8 @@ export default handleActions({
             authorized: true
         }),
     GET_USER_INFO_FAILURE: state =>
-        state.merge({
+        ({
+            ...state,
             requesting: false,
             authorized: false
         })

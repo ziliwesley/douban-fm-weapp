@@ -1,12 +1,12 @@
 import AsyncStorage from 'labrador-storage';
-import immutableTransform from '../utils/immutable-transform';
 
 // Redux 数据持久化设置
 const config = {
   storage: AsyncStorage,
-  //blacklist: [], // 可选，你【不想】存储的Redux store数据key列表
   whitelist: [ 'doubanAuth', 'wechatAuth' ], // 可选，你【只想】存储的Redux store数据key列表
-  transforms: [immutableTransform]
+  transforms: [],
+  // Otherwise wechat will whine about "setInterval(fn, 0)"
+  debounce: 33
 };
 
 export default config;
