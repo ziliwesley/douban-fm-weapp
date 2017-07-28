@@ -57,7 +57,7 @@ export function* authorize({ payload: scope }) {
  */
 export function* getUserInfo() {
     try {
-        yield call(wx.authorize, { payload: 'scope.userInfo' });
+        yield call(wx.authorize, { scope: 'scope.userInfo' });
         const res = yield call(wx.getUserInfo);
         yield put(getUserInfoSuccess(res.userInfo));
     } catch (err) {
