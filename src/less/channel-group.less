@@ -1,0 +1,42 @@
+@import "variables.less";
+
+.channel-group {
+  margin: 0 -@default-margin;
+  padding: 0 @default-margin;
+  border-bottom: 1px solid @default-background-color;
+  background: @light-background-color;
+
+  .channel-group-title {
+    margin: 0 -@default-margin;
+    padding: 4px @default-margin;
+    line-height: 20px;
+    font-size: @font-size-x-small;
+    color: @color-comment;
+    border-bottom: 1px solid @default-border-color;
+  }
+}
+
+.channel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: @default-margin 0;
+
+  .channel-cover {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+  }
+
+  .channel-name {
+    margin-left: @default-margin;
+    font-size: @font-size-normal;
+    color: @default-text-color;
+  }
+
+  .channel-appendix {
+    margin-left: @default-margin / 2;
+    font-size: @font-size-small;
+    color: @color-comment;
+  }
+}

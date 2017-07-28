@@ -11,32 +11,29 @@ export const WX_OPEN_SETTING_FAILURE = 'WX_OPEN_SETTING_FAILURE';
 
 export const WX_CLEAR_STORAGE = 'WX_CLEAR_STORAGE';
 
+export const WX_STOP_PULL_DOWN_REFRESH = 'WX_STOP_PULL_DOWN_REFRESH';
+
 // 获取用户授权
 export const authorize = createAction(WX_AUTHORIZE);
-
-// 获取用户授权成功
 export const authorizeSuccess = createAction(WX_AUTHORIZE_SUCCESS);
-
-// 获取用户授权失败
 export const authorizeFailure = createAction(WX_AUTHORIZE_FAILURE);
 
 // 调起客户端小程序设置界面，返回用户设置的操作结果
 export const openSetting = createAction(WX_OPEN_SETTING);
-
-// 调起设置界面成功
 export const openSettingSuccess = createAction(WX_OPEN_SETTING_SUCCESS);
-
-// 调起设置界面失败
 export const openSettingFailure = createAction(WX_OPEN_SETTING_FAILURE);
 
 // 清理本地数据缓存
 // TODO make a saga for this, and trigger global reset
- export const clearStorage = createAction(WX_CLEAR_STORAGE,
-    () => {
-        wx.clearStorageSync();
+export const clearStorage = createAction(WX_CLEAR_STORAGE, () => {
+    wx.clearStorageSync();
 
-        // NOTE This is actualy async
-        wx.wx.reLaunch({
-            url: 'entry'
-        });
+    // NOTE This is actualy async
+    wx.wx.reLaunch({
+        url: 'entry'
     });
+});
+
+export const stopPullDownRefresh = createAction(WX_STOP_PULL_DOWN_REFRESH, () => {
+    wx.stopPullDownRefresh();
+});

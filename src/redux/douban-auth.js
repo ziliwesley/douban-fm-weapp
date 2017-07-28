@@ -20,7 +20,7 @@ export const loginDoubanSuccess = createAction(DOUBAN_LOGIN_SUCCESS,
 // 登录失败
 export const loginDoubanFailure = createAction(DOUBAN_LOGIN_FAILURE);
 
-// 初始state
+// 初始 state
 export const INITIAL_STATE = {
     accessToken: null,
     loginName: null,
@@ -32,7 +32,7 @@ export const INITIAL_STATE = {
 
 export default handleActions({
     // 请求登录action
-    DOUBAN_LOGIN: (state) => ({
+    DOUBAN_LOGIN: state => ({
         ...state,
         fetching: true,
         error: null
@@ -41,20 +41,18 @@ export default handleActions({
     DOUBAN_LOGOUT: () => INITIAL_STATE,
     // 登录成功
     // TODO: 计算 expire 时间
-    DOUBAN_LOGIN_SUCCESS: (state, action) =>
-        ({
-            ...state,
-            fetching: false,
-            error: null,
-            loginName: action.meta.loginName,
-            accessToken: action.payload['access_token'],
-            userName: action.payload['douban_user_name'],
-            userId: action.payload['douban_user_id']
-        }),
-    DOUBAN_LOGIN_FAILURE: (state, action) =>
-        ({
-            ...state,
-            fetching: false,
-            error: `${action.payload.request}: ${action.payload.msg} (${action.payload.code})`
-        })
+    DOUBAN_LOGIN_SUCCESS: (state, action) => ({
+        ...state,
+        fetching: false,
+        error: null,
+        loginName: action.meta.loginName,
+        accessToken: action.payload['access_token'],
+        userName: action.payload['douban_user_name'],
+        userId: action.payload['douban_user_id']
+    }),
+    DOUBAN_LOGIN_FAILURE: (state, action) => ({
+        ...state,
+        fetching: false,
+        error: `${action.payload.request}: ${action.payload.msg} (${action.payload.code})`
+    })
 }, INITIAL_STATE);

@@ -2,8 +2,13 @@ import { Component, PropTypes } from 'labrador-immutable';
 import { connect } from 'labrador-redux';
 import { bindActionCreators } from 'redux';
 
+import ChannelGroup from '../components/channel-group/channel-group.js';
 import { navigateTo } from '../redux/wx-ui.js';
 import { getUserInfo } from '../redux/wx-auth.js';
+import { fetchChannelList } from '../redux/douban-radio.js';
+import { isNotEmtpyString } from '../utils/utils.js';
+
+import { sleep } from '../utils/utils.js';
 
 class EntryPage extends Component {
     static propTypes = {
@@ -14,12 +19,8 @@ class EntryPage extends Component {
         isAuthorized: false
     }
 
-    handleDoubanAuth = () => {
-        this.props.navigateTo('douban-auth');
-    }
-
-    handleChangeAppSetting = () => {
-        this.props.navigateTo('setting');
+    onPullDownRefresh() {
+        this.props.fetchChannelList();
     }
 
     onLoad() {
@@ -35,12 +36,51 @@ class EntryPage extends Component {
             isAuthorized: wechatAuth.authorized
         });
     }
+
+    onReachBottom() {
+        console.log('bottom reached');
+    }
+
+    onPageScroll(e) {
+        console.log(e);
+    }
+
+    children() {
+        const channelGroups = this.props.doubanRadio.channelGroups;
+
+        return {
+            groups: channelGroups.map(group => ({
+                component: ChannelGroup,
+                key: group.group_id,
+                props: {
+                    group
+                }
+            }))
+        }
+    }
+
+    handleDoubanAuth = () => {
+        this.props.navigateTo('douban-auth');
+    }
+
+    handleChangeAppSetting = () => {
+        this.props.navigateTo('setting');
+    }
 }
 
 export default connect(
-    ({ doubanAuth, wechatAuth }) => ({ doubanAuth, wechatAuth }),
+    ({
+        doubanAuth,
+        wechatAuth,
+        doubanRadio
+    }) => ({
+        doubanAuth,
+        wechatAuth,
+        doubanRadio
+    }),
     (dispatch) => bindActionCreators({
         navigateTo,
-        getUserInfo
+        getUserInfo,
+        fetchChannelList
     }, dispatch)
 )(EntryPage);

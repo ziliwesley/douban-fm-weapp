@@ -1,0 +1,5 @@
+<view class="channel">
+  <image class="channel-cover" src="{{props.channel.cover}}" />
+  <text class="channel-name">{{props.channel.name}}</text>
+  <text class="channel-appendix">MHz</text>
+</view>

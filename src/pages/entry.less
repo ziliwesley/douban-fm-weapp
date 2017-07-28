@@ -30,8 +30,9 @@
 
   .header {
     background-color: @navigation-bar-background-color;
-    position: fixed;
     width: 100%;
+    margin: 0 -16px;
+    padding: 0 16px;
     height: @header-height;
     display: flex;
     justify-content: flex-start;
@@ -39,11 +40,12 @@
     // Hide from view
     transform: translate(0, -@header-height);
     transition: all ease-in-out .3s;
+    position: relative;
+    z-index: 999;
 
     .bottom-shadow();
 
     .user-avatar {
-      margin-left: 16px;
       width: 48px;
       height: 48px;
       border-radius: @default-radius;
@@ -69,13 +71,15 @@
       }
 
       .douban-label {
-        background: @color-primary;
-        color: @navigation-bar-background-color;
-        padding: 4px;
+        color: @color-primary;
+        padding: 2px 4px;
         margin-right: 4px;
+        border: 1px solid @color-primary;
+        border-radius: @default-radius;
 
         &.warning {
           color: @color-warning;
+          border: none;
           background: transparent;
           padding: 4px 0;
         }
@@ -86,7 +90,6 @@
     .user-actions {
       display: flex;
       margin-left: 16px;
-      padding-right: 16px;
       justify-content: flex-end;
       flex-grow: 1;
       transform: translate(0, 64px);
@@ -108,11 +111,13 @@
   }
 
   .content {
-    margin-top: 16px;
+    // margin-top: 16px;
     transition: all ease-in-out .3s;
+    flex-grow: 1;
   }
 
   &.authorized {
+
     .header {
       // Move back to view
       transform: translate(0, 0);
@@ -125,13 +130,5 @@
         }
       }
     }
-
-    .content {
-      margin-top: @header-height + 16px;
-    }
-  }
-
-  .content {
-    min-height: 100vh;
   }
 }

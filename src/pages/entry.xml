@@ -18,5 +18,6 @@
     </view>
   </view>
   <view class="content">
+    <list key="groups" name="channel-group" />
   </view>
 </view>

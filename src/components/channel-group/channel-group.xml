@@ -1,0 +1,8 @@
+<view class="channel-group">
+  <view wx:if="{{props.group.group_name !== ''}}" class="channel-group-title">
+    <text class="channel-group-name">{{props.group.group_name}}</text>
+  </view>
+  <view class="channel-list">
+    <list key="channels" name="channel" />
+  </view>
+</view>

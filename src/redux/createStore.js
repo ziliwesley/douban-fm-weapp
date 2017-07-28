@@ -4,6 +4,8 @@ import createLogger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import reduxPersist from '../config/redux-persist';
 
+
+
 /**
  * 创建store
  * @param rootReducer
@@ -11,38 +13,40 @@ import reduxPersist from '../config/redux-persist';
  * @returns {*}
  */
 export default function (rootReducer, rootSaga) {
-  const middleware = [];
-  const enhancers = [];
+    const middleware = [];
+    const enhancers = [];
 
-  // saga中间件
-  const sagaMiddleware = createSagaMiddleware();
-  middleware.push(sagaMiddleware);
+    // saga中间件
+    const sagaMiddleware = createSagaMiddleware();
+    middleware.push(sagaMiddleware);
 
-  // log中间件
-  const SAGA_LOGGING_BLACKLIST = ['EFFECT_TRIGGERED', 'EFFECT_RESOLVED', 'EFFECT_REJECTED'];
-  if (__DEV__) {
-    const logger = createLogger({
-      predicate: (getState, { type }) => SAGA_LOGGING_BLACKLIST.indexOf(type) === -1
+    // log中间件
+    const SAGA_LOGGING_BLACKLIST = ['EFFECT_TRIGGERED', 'EFFECT_RESOLVED', 'EFFECT_REJECTED'];
+    if (__DEV__) {
+        const logger = createLogger({
+            predicate: (getState, { type }) => SAGA_LOGGING_BLACKLIST.indexOf(type) === -1
+        });
+        middleware.push(logger);
+    }
+
+    // 合并中间件
+    enhancers.push(applyMiddleware(...middleware));
+
+    // persist rehydrate
+    enhancers.push(autoRehydrate());
+
+    const store = createStore(rootReducer, compose(...enhancers));
+
+    // persist
+    persistStore(store, reduxPersist, () => {
+        // expect to exec startup script
+        store.dispatch({
+            type: 'STARTUP'
+        });
     });
-    middleware.push(logger);
-  }
 
-  // 合并中间件
-  enhancers.push(applyMiddleware(...middleware));
+    // kick off root saga
+    sagaMiddleware.run(rootSaga);
 
-  // persist rehydrate
-  enhancers.push(autoRehydrate());
-
-  const store = createStore(rootReducer, compose(...enhancers));
-
-  // persist
-  persistStore(store, reduxPersist, () => {
-    // startup script
-    console.log('started');
-  });
-
-  // kick off root saga
-  sagaMiddleware.run(rootSaga);
-
-  return store;
+    return store;
 }

@@ -1,5 +1,6 @@
-export function add(a, b) {
-  return a + b;
+export function isNotEmtpyString(value) {
+    // For simplicity
+    return typeof value === 'string' && value.length > 0;
 }
 
 export function sleep(ms) {
