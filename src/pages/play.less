@@ -1,0 +1,100 @@
+@import "../less/variables.less";
+@import "../less/mixins.less";
+@import "../less/circle-progress.less";
+page{
+  height: 100%;
+}
+@img-bordor-size: 420rpx;
+
+.play-page{
+  .container;
+  .user{
+    display:flex;
+    flex-grow:1;
+    align-items:center;
+    flex-direction: column;
+    padding-top: 100rpx;
+    .user-img{
+      position: relative;
+      .icon-change{
+        .size;
+        .circle-img;
+        .all-center;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index: 100;
+        color: @text-color-green;
+        background-color: #fff;
+        opacity: 0;
+        font-size: 25px;
+        transition: opacity .16s linear;
+        &:before{
+          font-family: 'icomoon' !important;
+        }
+      // play
+        &.play:before{
+          content: "\e906";
+        }
+      //pause
+        &.puase:before{
+          content: "\e905";
+        }
+      }
+      &:active{
+        .icon-change{
+          opacity: 0.85;
+        }
+      }
+      image{
+        .size;
+        .circle-img;
+        position: absolute;
+        z-index: 9;
+        left: 10rpx;
+        top: 10rpx;
+      }
+    }
+    .names{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.5;
+      .wechat-nickname{
+        .text-overfolw;
+        color: @default-text-color;
+        font-size: @font-size-normal;
+        max-width: 90%;
+      }
+      .username{
+        .text-overfolw;
+        color: @light-text-color;
+        font-size: @font-size-x-small;
+        max-width: 70%;
+      }
+    }
+  }
+  .user-actions{
+    flex-grow:1;
+    display:flex;
+    align-items:center;
+    width: 85%;
+    button.icon{
+      background-color: transparent;
+      font-size: 25px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: @light-text-color;
+      height:50px;
+      display:flex;
+      align-items:center;
+
+      &::after{
+        border: none;
+      }
+      &.button-hover{
+        opacity: 0.5;
+      }
+    }
+  }
+}
