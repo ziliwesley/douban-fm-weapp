@@ -11,14 +11,6 @@ import { isNotEmtpyString } from '../utils/utils.js';
 import { sleep } from '../utils/utils.js';
 
 class EntryPage extends Component {
-    static propTypes = {
-        isAuthorized: PropTypes.bool
-    }
-
-    state = {
-        isAuthorized: false
-    }
-
     onPullDownRefresh() {
         this.props.fetchChannelList();
     }
@@ -26,15 +18,6 @@ class EntryPage extends Component {
     onLoad() {
         // 初次渲染完成后请求授权获取用户信息
         this.props.getUserInfo('scope.userInfo');
-    }
-
-    onUpdate(props) {
-        const { wechatAuth } = props;
-
-        // TODO check if wechat will do diff operations
-        this.setState({
-            isAuthorized: wechatAuth.authorized
-        });
     }
 
     onReachBottom() {
@@ -61,14 +44,6 @@ class EntryPage extends Component {
             }))
         }
     }
-
-    handleDoubanAuth = () => {
-        this.props.navigateTo('douban-auth');
-    }
-
-    handleChangeAppSetting = () => {
-        this.props.navigateTo('setting');
-    }
 }
 
 export default connect(
@@ -82,7 +57,6 @@ export default connect(
         doubanRadio
     }),
     (dispatch) => bindActionCreators({
-        navigateTo,
         getUserInfo,
         fetchChannelList,
         switchChannel

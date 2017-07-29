@@ -1,4 +1,4 @@
-<view class="entry-page container {{state.isAuthorized ? 'authorized' : ''}}">
+<view class="entry-page container {{props.wechatAuth.authorized ? 'authorized' : ''}}">
   <!-- 已获取微信用户信息 -->
   <view class="header">
     <image class="user-avatar"
@@ -9,12 +9,12 @@
         <text class="douban-label">douban</text>
         <text>{{props.doubanAuth.userName}}</text>  
       </view>
-      <view wx:else class="douban-status" catchtap="handleDoubanAuth">
+      <navigator wx:else class="douban-status" url="/pages/douban-auth" open-type="navigate">
         <text class="douban-label warning">尚未绑定豆瓣账户</text>
-      </view>
+      </navigator>
     </view>
     <view class="user-actions">
-      <button class="icon icon-cog" catchtap="handleChangeAppSetting"></button>
+      <navigator url="/pages/setting" open-type="navigate" class="icon icon-cog"></navigator>
     </view>
   </view>
   <view class="content">

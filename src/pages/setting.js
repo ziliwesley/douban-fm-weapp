@@ -11,10 +11,6 @@ class SettingPage extends Component {
         this.props.getUserInfo();
     }
 
-    handleDoubanAuth = () => {
-        this.props.navigateTo('douban-auth');
-    }
-
     handleClearStorage = () => {
         this.props.clearStorage();
     }
@@ -27,7 +23,6 @@ class SettingPage extends Component {
 export default connect(
     ({ doubanAuth, wechatAuth }) => ({ doubanAuth, wechatAuth }),
     (dispatch) => bindActionCreators({
-        navigateTo,
         getUserInfo,
         openSetting,
         clearStorage

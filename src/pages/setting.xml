@@ -1,6 +1,6 @@
 <view class="setting-page container">
   <view class="cells">
-    <button class="cell action" catchtap="handleDoubanAuth">登录豆瓣账户</button>
+    <navigator class="cell action" url="/pages/douban-auth" open-type="navigate">登录豆瓣账户</navigator>
   </view>
   <view class="cells">
     <button class="cell action" catchtap="handleGetUserInfo">刷新微信账户信息</button>
