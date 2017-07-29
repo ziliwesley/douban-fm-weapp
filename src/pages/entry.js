@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import ChannelGroup from '../components/channel-group/channel-group.js';
 import { navigateTo } from '../redux/wx-ui.js';
 import { getUserInfo } from '../redux/wx-auth.js';
-import { fetchChannelList } from '../redux/douban-radio.js';
+import { fetchChannelList, switchChannel } from '../redux/douban-radio.js';
 import { isNotEmtpyString } from '../utils/utils.js';
 
 import { sleep } from '../utils/utils.js';
@@ -46,14 +46,17 @@ class EntryPage extends Component {
     }
 
     children() {
-        const channelGroups = this.props.doubanRadio.channelGroups;
+        const { channelGroups, active } = this.props.doubanRadio;
+        const switchChannel = this.props.switchChannel;
 
         return {
             groups: channelGroups.map(group => ({
                 component: ChannelGroup,
                 key: group.group_id,
                 props: {
-                    group
+                    group,
+                    currentActive: active,
+                    switchChannel
                 }
             }))
         }
@@ -81,6 +84,7 @@ export default connect(
     (dispatch) => bindActionCreators({
         navigateTo,
         getUserInfo,
-        fetchChannelList
+        fetchChannelList,
+        switchChannel
     }, dispatch)
 )(EntryPage);

@@ -5,18 +5,21 @@ import Channel from '../channel/channel.js';
 class ChannelGroup extends Component {
     static propTypes = {
         group: PropTypes.object.isRequired,
-        showTitle: PropTypes.object.bool
+        currentActive: PropTypes.number,
+        switchChannel: PropTypes.func.isRequired
     };
 
     children() {
-        const channelGroup = this.props.group;
+        const { group, currentActive, switchChannel } = this.props;
 
         return {
-            channels: channelGroup.chls.map(channel => ({
+            channels: group.chls.map(channel => ({
                 component: Channel,
                 key: channel.id,
                 props: {
-                    channel
+                    channel,
+                    isActive: channel.id === currentActive,
+                    switchChannel
                 }
             }))
         };

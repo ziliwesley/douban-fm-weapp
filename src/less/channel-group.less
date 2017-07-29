@@ -1,5 +1,48 @@
 @import "variables.less";
 
+// Playing Icon
+// <?xml version="1.0" standalone="no"?>
+// <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+// "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+// <svg width="32" height="36" version="1.1"
+// xmlns="http://www.w3.org/2000/svg">
+//   <rect x="0" y="0" width="4" height="36" fill="#63c284">
+//     <animate attributeName="y"
+//       values="0;20;0;20;20;20"
+//       dur="2s"
+//       repeatCount="indefinite" />
+//   </rect>
+//   <rect x="8" y="0" width="4" height="36" fill="#63c284">
+//     <animate attributeName="y"
+//       values="0;6;6;6;0"
+//       dur="4s"
+//       repeatCount="indefinite" />
+//   </rect>
+//   <rect x="16" y="0" width="4" height="36" fill="#63c284">
+//     <animate attributeName="y"
+//       values="0;8;0;22;22;0"
+//       dur="4s"
+//       repeatCount="indefinite" />
+//   </rect>
+//   <rect x="24" y="0" width="4" height="36" fill="#63c284">
+//     <animate attributeName="y"
+//       values="0;30;30;5;30;30;0"
+//       dur="6s"
+//       repeatCount="indefinite" />
+//   </rect>
+// </svg>
+
+
+.active-channel {
+  &::after {
+    content: "";
+    width: 16px;
+    height: 18px;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiANCiJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg0KPHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzYiIHZlcnNpb249IjEuMSINCnhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI0IiBoZWlnaHQ9IjM2IiBmaWxsPSIjNjNjMjg0Ij4NCiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJ5Ig0KICAgICAgdmFsdWVzPSIwOzIwOzA7MjA7MjA7MjAiDQogICAgICBkdXI9IjJzIg0KICAgICAgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIC8+DQogIDwvcmVjdD4NCiAgPHJlY3QgeD0iOCIgeT0iMCIgd2lkdGg9IjQiIGhlaWdodD0iMzYiIGZpbGw9IiM2M2MyODQiPg0KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9InkiDQogICAgICB2YWx1ZXM9IjA7Njs2OzY7MCINCiAgICAgIGR1cj0iNHMiDQogICAgICByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz4NCiAgPC9yZWN0Pg0KICA8cmVjdCB4PSIxNiIgeT0iMCIgd2lkdGg9IjQiIGhlaWdodD0iMzYiIGZpbGw9IiM2M2MyODQiPg0KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9InkiDQogICAgICB2YWx1ZXM9IjA7ODswOzIyOzIyOzAiDQogICAgICBkdXI9IjRzIg0KICAgICAgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIC8+DQogIDwvcmVjdD4NCiAgPHJlY3QgeD0iMjQiIHk9IjAiIHdpZHRoPSI0IiBoZWlnaHQ9IjM2IiBmaWxsPSIjNjNjMjg0Ij4NCiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJ5Ig0KICAgICAgdmFsdWVzPSIwOzMwOzMwOzU7MzA7MzA7MCINCiAgICAgIGR1cj0iNnMiDQogICAgICByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz4NCiAgPC9yZWN0Pg0KPC9zdmc+DQo=");
+    background-size: 16px 18px;
+  }
+}
+
 .channel-group {
   margin: 0 -@default-margin;
   padding: 0 @default-margin;
@@ -20,7 +63,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: @default-margin 0;
+  padding: @default-margin;
+  margin: 0 -@default-margin;
+
+  &:active {
+    background-color: @default-background-color;
+  }
 
   .channel-cover {
     width: 72rpx;
@@ -32,11 +80,15 @@
     margin-left: @default-margin;
     font-size: @font-size-normal;
     color: @default-text-color;
-  }
+    flex-grow: 1;
 
-  .channel-appendix {
-    margin-left: @default-margin / 2;
-    font-size: @font-size-small;
-    color: @color-comment;
+    &.channel-mhz {
+      &::after {
+        content: "MHz";
+        margin-left: @default-margin / 2;
+        font-size: @font-size-small;
+        color: @default-border-color;
+      }
+    }
   }
 }
