@@ -22,7 +22,6 @@ export const switchChannelFailure = createAction(SWITCH_CHANNEL_FAILURE);
 export const INITIAL_STATE = {
     // 频道分组
     channelGroups: [],
-    playlist: [],
     error: null,
     fetching: false,
     active: -1
@@ -53,8 +52,7 @@ export default handleActions({
     }),
     SWITCH_CHANNEL_SUCCESS: (state, action) => ({
         ...state,
-        fetching: false,
-        playlist: action.payload
+        fetching: false
     }),
     SWITCH_CHANNEL_FAILURE: (state, action) => ({
         ...state,

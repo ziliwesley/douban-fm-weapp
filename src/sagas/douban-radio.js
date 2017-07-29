@@ -11,6 +11,14 @@ import {
     switchChannelFailure,
 } from '../redux/douban-radio.js';
 import {
+    updatePlaylist,
+    playNextSong,
+    UPDATE_PLAYLIST_SUCCESS,
+    UPDATE_PLAYLIST_FAILURE,
+    PLAY_NEXT_SONG_SUCCESS,
+    PLAY_NEXT_SONG_FAILURE
+} from '../redux/player.js';
+import {
     stopPullDownRefresh
 } from '../redux/wx-api.js';
 import {
@@ -18,14 +26,14 @@ import {
     hideNavigationBarLoading
 } from '../redux/wx-ui.js';
 
-const { put, call, select } = effects;
+const { put, call, select, take, race } = effects;
 
 /**
  * 获取豆瓣频道列表(分组)
  * @param  {string} token 授权 Token
  * @return {Promise}
  */
-function requestChannelList(token) {
+function fetchChannelList(token) {
     const options = {
         method: 'GET',
         url: 'https://api.douban.com/v2/fm/app_channels?app_name=radio_android&apikey=02f7751a55066bcb08e65f4eff134361&user_accept_play_third_party=1&version=651&audio_patch_version=4'
@@ -40,22 +48,7 @@ function requestChannelList(token) {
     return request(options);
 }
 
-function requestPlaylist(token, channelId) {
-    const options = {
-        method: 'GET',
-        url: `https://api.douban.com/v2/fm/playlist?apikey=02f7751a55066bcb08e65f4eff134361&max=30&channel=${channelId}&kbps=64&type=n&version=651&audio_patch_version=4&mode=offline&app_name=radio_android&user_accept_play_third_party=1&client=s%3Amobile%7Cv%3A4.6.11%7Cy%3Aandroid+5.1.1%7Cf%3A651%7Cm%3AOPPO%7Cd%3A7e91aa3bc63255a67f8907ec0e6a381c726fb34d%7Ce%3Aoneplus_one_e1001`
-    };
-
-    if (token) {
-        options.header = {
-            'Content-Type': `Bearer ${token}`
-        };
-    }
-
-    return request(options);
-}
-
-export function* fetchChannelList() {
+export function* fetchChannelListWorker() {
     try {
         const token = yield select(state => state.doubanAuth.accessToken);
         const active = yield select(state => state.doubanRadio.active);
@@ -63,12 +56,14 @@ export function* fetchChannelList() {
         // 导航栏显示加载状态
         yield put(showNavigationBarLoading());
 
-        const res = yield call(requestChannelList, token);
+        const res = yield call(fetchChannelList, token);
         const nextActive = active === -1 ? 0 : active;
 
         yield put(fetchChannelListSuccess(res));
         yield put(stopPullDownRefresh());
         // 自动切换频道
+        // TODO
+        // Check if the channelId is still a valid one
         yield put(switchChannel(nextActive));
     } catch (err) {
         yield put(fetchChannelListFailure(err));
@@ -83,19 +78,35 @@ export function* fetchChannelList() {
  * @param {number} options.payload: channelId  频道 Id
  */
 export function* switchChannelWorker({ payload: channelId }) {
-    try {
-        const token = yield select(state => state.doubanAuth.accessToken);
+    // 导航栏显示加载状态
+    yield put(showNavigationBarLoading());
+    
+    // 自动更新播放列表
+    yield put(updatePlaylist(channelId));
 
-        // 导航栏显示加载状态
-        yield put(showNavigationBarLoading());
+    // 等待结果
+    const { updateSuccess, updateError } = yield race({
+        updateSuccess: take(UPDATE_PLAYLIST_SUCCESS),
+        updateError: take(UPDATE_PLAYLIST_FAILURE)
+    });
 
-        const res = yield call(requestPlaylist, token, channelId);
+    if (updateSuccess) {
+        // 播放下一首歌曲
+        yield put(playNextSong());
 
-        yield put(switchChannelSuccess(res.song, {
-            id: channelId
-        }));
-    } catch (err) {
-        yield put(switchChannelFailure(err));
+        // 等待结果
+        const { playSuccess, playError } = yield race({
+            playSuccess: take(PLAY_NEXT_SONG_SUCCESS),
+            playError: take(PLAY_NEXT_SONG_FAILURE)
+        });
+
+        if (playSuccess) {
+            yield put(switchChannelSuccess());
+        } else {
+            yield put(switchChannelFailure(playError));
+        }
+    } else {
+        yield put(switchChannelFailure(updateError));
     }
 
     // 导航栏结束加载状态
@@ -106,6 +117,6 @@ export function* switchChannelWorker({ payload: channelId }) {
  * 豆瓣电台相关 Watcher
  */
 export default function* doubanRadioWatcher() {
-    yield takeLatest(FETCH_CHANNEL_LIST, fetchChannelList);
+    yield takeLatest(FETCH_CHANNEL_LIST, fetchChannelListWorker);
     yield takeLatest(SWITCH_CHANNEL, switchChannelWorker);
 }
