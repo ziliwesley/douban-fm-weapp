@@ -3,10 +3,12 @@ import { connect } from 'labrador-redux';
 import { bindActionCreators } from 'redux';
 
 import ChannelGroup from '../components/channel-group/channel-group.js';
+import Playing from '../components/playing/playing.js';
+
 import { navigateTo } from '../redux/wx-ui.js';
 import { getUserInfo } from '../redux/wx-auth.js';
 import { fetchChannelList, switchChannel } from '../redux/douban-radio.js';
-import { isNotEmtpyString } from '../utils/utils.js';
+import { playNextSong } from '../redux/player.js';
 
 import { sleep } from '../utils/utils.js';
 
@@ -28,9 +30,17 @@ class EntryPage extends Component {
         console.log(e);
     }
 
+    handleSwitchChannel = (id) => {
+        return this.props.switchChannel(id);
+    };
+
+    handlePlayNextSong = () => {
+        return this.props.playNextSong();
+    };
+
     children() {
         const { channelGroups, active } = this.props.doubanRadio;
-        const switchChannel = this.props.switchChannel;
+        const { playing } = this.props.player;
 
         return {
             groups: channelGroups.map(group => ({
@@ -39,9 +49,16 @@ class EntryPage extends Component {
                 props: {
                     group,
                     currentActive: active,
-                    switchChannel
+                    onSwitchChannel: this.handleSwitchChannel
                 }
-            }))
+            })),
+            playing: {
+                component: Playing,
+                props: {
+                    playing,
+                    onPlayNextSong: this.handlePlayNextSong
+                }
+            }
         }
     }
 }
@@ -50,15 +67,18 @@ export default connect(
     ({
         doubanAuth,
         wechatAuth,
-        doubanRadio
+        doubanRadio,
+        player
     }) => ({
         doubanAuth,
         wechatAuth,
-        doubanRadio
+        doubanRadio,
+        player
     }),
     (dispatch) => bindActionCreators({
         getUserInfo,
         fetchChannelList,
-        switchChannel
+        switchChannel,
+        playNextSong
     }, dispatch)
 )(EntryPage);

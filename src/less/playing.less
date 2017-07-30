@@ -1,0 +1,116 @@
+@import "variables.less";
+
+@footer-height: 48px;
+
+@keyframes marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-100%, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.footer {
+  position: fixed;
+  height: @footer-height;
+  box-sizing: border-box;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding: @default-margin / 2 @default-margin;
+  background-color: @navigation-bar-background-color;
+  box-shadow: 0 -1px 1px 0 rgba(75, 75, 75, 0.2);
+}
+
+.playing {
+  height: @footer-height;
+  display: flex;
+  flex-direction: row;
+}
+
+.playing__cover {
+  width: 36px;
+  flex: 0 0 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.playing__intro {
+  overflow: hidden;
+  display: block;
+  height: 36px;
+  flex: 1 1;
+  margin: 0 @default-margin;
+}
+
+.playing__title {
+  display: flex;
+  line-height: 16px;
+  height: 16px;
+  vetical-align:middle;
+}
+
+.playing__title::after {
+  content: "";
+  width: 0;
+  display: inline-block;
+  height: 100%;
+  vetical-align:middle;
+}
+
+.playint__channel_name {
+  display: block;
+  font-size: @font-size-small;
+  color: @color-comment;
+  margin-top: 4px;
+  line-height: 16px;
+  height: 16px;
+}
+
+.playing__title__text {
+  vetical-align:middle;
+  // animation: marquee 6s ease-in-out;
+  // animation-iteration-count: infinite;
+  // animation-fill-mode: both;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  font-size: @font-size-small;
+  line-height: 16px;
+}
+
+.playingFooterIcon() {
+  display: block;
+  font-size: 24px;
+  margin: 0 0 0 @default-margin !important;
+  padding: 0 !important;
+  line-height: 36px;
+  width: 36px;
+  flex: 0 0 36px;
+  height: 36px;
+  box-sizing: border-box;
+  background: transparent;
+
+  &::after {
+    width: inherit;
+    width: inherit;
+    position: relative;
+    top: auto;
+    left: auto;
+    border: none;
+    transform: scale(1);
+    border-radius: 0;
+  }
+}
+
+.playing__heart {
+  .playingFooterIcon();
+}
+
+.playing__play {
+  .playingFooterIcon();
+}

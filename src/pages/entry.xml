@@ -20,4 +20,7 @@
   <view class="content">
     <list key="groups" name="channel-group" />
   </view>
+  <view class="footer">
+    <component key="playing" name="playing"></component>
+  </view>
 </view>

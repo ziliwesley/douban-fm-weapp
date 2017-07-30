@@ -4,14 +4,14 @@ class Channel extends Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         isActive: PropTypes.bool.isRequired,
-        switchChannel: PropTypes.func.isRequired
+        onSwitchChannel: PropTypes.func.isRequired
     };
 
     handleSwitchChannel() {
-        const { channel, isActive, switchChannel } = this.props;
+        const { channel, isActive, onSwitchChannel } = this.props;
 
         if (!isActive) {
-            switchChannel(channel.id);
+            onSwitchChannel(channel.id);
         }
     }
 }

@@ -6,11 +6,11 @@ class ChannelGroup extends Component {
     static propTypes = {
         group: PropTypes.object.isRequired,
         currentActive: PropTypes.number,
-        switchChannel: PropTypes.func.isRequired
+        onSwitchChannel: PropTypes.func.isRequired
     };
 
     children() {
-        const { group, currentActive, switchChannel } = this.props;
+        const { group, currentActive, onSwitchChannel } = this.props;
 
         return {
             channels: group.chls.map(channel => ({
@@ -19,7 +19,7 @@ class ChannelGroup extends Component {
                 props: {
                     channel,
                     isActive: channel.id === currentActive,
-                    switchChannel
+                    onSwitchChannel
                 }
             }))
         };

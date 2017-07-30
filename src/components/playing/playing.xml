@@ -1,0 +1,13 @@
+<view class="playing">
+  <image class="playing__cover" src="{{props.playing.cover}}"></image>
+  <view class="playing__intro">
+    <view class="playing__title"><text class="playing__title__text">{{props.playing.title}} - {{props.playing.artist}}</text></view>
+    <text class="playint__channel_name">{{props.playing.channelName}}</text>
+  </view>
+  <button class="playing__heart icon-heart"
+    catchtap="handlePauseMusic">
+  </button>
+  <button class="playing__play icon-play"
+    catchtap="handlePlayNextSong">
+  </button>
+</view>
