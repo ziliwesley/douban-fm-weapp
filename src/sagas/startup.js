@@ -13,5 +13,5 @@ export function* startup() {
  * 启动事件 Watcher
  */
 export default function* doubanRadioWatcher() {
-    yield takeLatest('STARTUP', startup);
+    // yield takeLatest('STARTUP', startup);
 }

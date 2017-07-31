@@ -17,6 +17,7 @@ class EntryPage extends Component {
     onLoad() {
         // 初次渲染完成后请求授权获取用户信息
         this.props.getUserInfo('scope.userInfo');
+        this.props.fetchChannelList();
     }
 
     onReachBottom() {
