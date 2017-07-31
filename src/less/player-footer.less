@@ -1,6 +1,10 @@
 @import "variables.less";
+@import "mixins.less";
+@import "circle-progress.less";
 
 @footer-height: 48px;
+@circle-progress-size: 36px;
+@circle-progress-width: 2px;
 
 @keyframes marquee {
   0% {
@@ -26,20 +30,45 @@
   box-shadow: 0 -1px 1px 0 rgba(75, 75, 75, 0.2);
 }
 
-.playing {
+.player-footer {
   height: @footer-height;
   display: flex;
   flex-direction: row;
 }
 
-.playing__cover {
+.player-footer__cover {
+  .circleProgressContent(@circle-progress-size, @circle-progress-width);
   width: 36px;
   flex: 0 0 36px;
   height: 36px;
   border-radius: 50%;
 }
 
-.playing__intro {
+.player-footer__circle-progress__container {
+  .circleProgress(@circle-progress-size, @circle-progress-width);
+
+  &::after {
+    font-size: 16px;
+  }
+}
+
+.player-footer__circle-progress__left-wrapper {
+  .circleProgressLeftWrapper(@circle-progress-size, @circle-progress-width);
+}
+
+.player-footer__circle-progress__right-wrapper {
+  .circleProgressRightWrapper(@circle-progress-size, @circle-progress-width);
+}
+
+.player-footer__circle-progress__left-inner-circle {
+  .circleProgressLeftInnerCircle(@circle-progress-size, @circle-progress-width);
+}
+
+.player-footer__circle-progress__right-inner-circle {
+  .circleProgressRightInnerCircle(@circle-progress-size, @circle-progress-width);
+}
+
+.player-footer__intro {
   overflow: hidden;
   display: block;
   height: 36px;
@@ -47,14 +76,14 @@
   margin: 0 @default-margin;
 }
 
-.playing__title {
+.player-footer__title {
   display: flex;
   line-height: 16px;
   height: 16px;
   vetical-align:middle;
 }
 
-.playing__title::after {
+.player-footer__title::after {
   content: "";
   width: 0;
   display: inline-block;
@@ -62,7 +91,7 @@
   vetical-align:middle;
 }
 
-.playint__channel_name {
+.player-footer__channel_name {
   display: block;
   font-size: @font-size-small;
   color: @color-comment;
@@ -71,7 +100,7 @@
   height: 16px;
 }
 
-.playing__title__text {
+.player-footer__title__text {
   vetical-align:middle;
   // animation: marquee 6s ease-in-out;
   // animation-iteration-count: infinite;
@@ -83,7 +112,7 @@
   line-height: 16px;
 }
 
-.playingFooterIcon() {
+.playerFooterIcon() {
   display: block;
   font-size: 24px;
   margin: 0 0 0 @default-margin !important;
@@ -107,10 +136,10 @@
   }
 }
 
-.playing__heart {
-  .playingFooterIcon();
+.player-footer__heart {
+  .playerFooterIcon();
 }
 
-.playing__play {
-  .playingFooterIcon();
+.player-footer__play {
+  .playerFooterIcon();
 }

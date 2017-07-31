@@ -83,6 +83,16 @@ export default handleActions({
     PLAY_MUSIC: (state, action) => ({
         ...state
     }),
+    // NOTE
+    // Currently the listener which watches the playstate changes will
+    // also be paused.
+    PAUSE_MUSIC: (state, action) => ({
+        ...state,
+        playState: {
+            ...state.playState,
+            status: PLAYER_STATUS.PAUSED
+        }
+    }),
     PLAY_NEXT_SONG_SUCCESS: (state, action) => ({
         ...state,
         current: action.payload.current,

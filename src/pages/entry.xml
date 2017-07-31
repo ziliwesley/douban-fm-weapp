@@ -21,6 +21,6 @@
     <list key="groups" name="channel-group" />
   </view>
   <view class="footer">
-    <component key="playing" name="playing"></component>
+    <component key="footer" name="player-footer"></component>
   </view>
 </view>

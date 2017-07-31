@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/play",
     "pages/entry",
+    "pages/player",
     "pages/setting",
     "pages/douban-auth"
   ],

@@ -1,39 +1,95 @@
-.circleProgress{
-  .size(@img-bordor-size; @img-bordor-size);
-  .circle-img; 
-  overflow: hidden;
+@import "variables.less";
+@import "mixins.less";
+
+.circleProgress(@bordor-size; @ring-width) {
+  .size(@bordor-size + @ring-width * 2; @bordor-size + @ring-width * 2);
+  .circle-img;
+  position: relative;
+
+  &::before {
+    content: "";
+    .size(100%; 100%);
+    position: absolute; 
+    top: 0;
+    left: 0;
+    border: @ring-width solid #e1e6e3;
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+
+  &::after {
+    .all-center;
+    .circle-img;
+    .size(@bordor-size; @bordor-size);
+    content: "\e906";
+    display: block;
+    font-size: 32px;
+    font-family: 'icomoon';
+    color: @text-color-green;
+    background-color: rgba(255, 255, 255, .9);
+    text-align: center;
+    line-height: @bordor-size;
+  }
+
+  &.playing {
+    &::after {
+      display: none;
+    }
+  }
 }
-.border-wrapper{
-  .size(@img-bordor-size - 4; @img-bordor-size - 4); 
-  position: absolute; 
-  border: 2px solid #e1e6e3;
-  border-radius: 50%;
-  top: -2rpx;
-  left: -2rpx;
-}
-.wrapper{
-  .size((@img-bordor-size)/2; @img-bordor-size);
-  position: absolute; 
-  overflow: hidden; 
-  top: -2rpx;
-}
-.wrapper.right{right: -2rpx;}
-.wrapper.left{left: -2rpx;}
-.inner{
-  .size(@img-bordor-size; @img-bordor-size);
+
+.circleProgressContent(@bordor-size; @ring-width) {
+  .size(@bordor-size - @ring-width; @bordor-size - @ring-width);
   .circle-img;
   position: absolute;
-  border: 2px solid transparent;
-  top: -2rpx;
-  border-top: 2px solid @text-color-green;
-  border-right: 2px solid @text-color-green;
-  transition: transform .2s linear;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
-.inner.circleright{
-  right: -2rpx;
-  transform: rotate(-63deg);
+
+.circleProgressInnerWrapper(@bordor-size; @ring-width) {
+  .size(50%; 100%);
+  position: absolute; 
+  overflow: hidden; 
 }
-.inner.circleleft{
-  left: -2rpx;
-  transform: rotate(45deg);
+
+.circleProgressRightWrapper(@bordor-size; @ring-width) {
+  .circleProgressInnerWrapper(@bordor-size; @ring-width);
+  top: 0;
+  right: 0;
+}
+.circleProgressLeftWrapper(@bordor-size; @ring-width) {
+  .circleProgressInnerWrapper(@bordor-size; @ring-width);
+  top: 0;
+  left: 0;
+}
+
+.circleProgressInnerCircle(@bordor-size; @ring-width) {
+  .size(200%; 100%);
+  .circle-img;
+  position: absolute;
+  border: @ring-width solid transparent;
+  transition: transform .3s linear;
+  box-sizing: border-box;
+}
+
+.circleProgressRightInnerCircle(@bordor-size; @ring-width) {
+  .circleProgressInnerCircle(@bordor-size; @ring-width);
+  border-right-color: @text-color-green;
+  border-top-color: @text-color-green;
+  top: 0;
+  right: 0;
+  // 全部显示时为 45deg
+  transform: rotate(-135deg);
+}
+
+.circleProgressLeftInnerCircle(@bordor-size; @ring-width) {
+  .circleProgressInnerCircle(@bordor-size; @ring-width);
+  border-left-color: @text-color-green;
+  border-bottom-color: @text-color-green;
+  left: 0;
+  top: 0;
+  transition-delay: .3s;
+  // 全部显示时为 45deg
+  transform: rotate(-135deg);
 }

@@ -1,0 +1,83 @@
+@import "../less/variables.less";
+@import "../less/mixins.less";
+@import "../less/circle-progress.less";
+
+@circle-progress-size: 460rpx;
+@circle-progress-width: 8rpx;
+
+.player-page {
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+}
+
+.player__circle-progress__container {
+  margin-top: 120rpx;
+  .circleProgress(@circle-progress-size, @circle-progress-width);
+}
+
+.player__circle-progress__content {
+  .circleProgressContent(@circle-progress-size, @circle-progress-width);
+}
+
+.player__circle-progress__left-wrapper {
+  .circleProgressLeftWrapper(@circle-progress-size, @circle-progress-width);
+}
+
+.player__circle-progress__right-wrapper {
+  .circleProgressRightWrapper(@circle-progress-size, @circle-progress-width);
+}
+
+.player__circle-progress__left-inner-circle {
+  .circleProgressLeftInnerCircle(@circle-progress-size, @circle-progress-width);
+}
+
+.player__circle-progress__right-inner-circle {
+  .circleProgressRightInnerCircle(@circle-progress-size, @circle-progress-width);
+}
+
+.player-song-info {
+  margin-top: @default-margin * 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.player-song-info__song-title {
+  .text-overfolw;
+  line-height: 60rpx;
+  font-size: @font-size-xx-large;
+  color: @default-text-color;
+  max-width: 600rpx;
+}
+
+.player-song-info__artist {
+  .text-overfolw;
+  margin-top: @default-margin;
+  max-width: 600rpx;
+  font-size: @font-size-x-small;
+  color: @color-comment;
+}
+
+.player__user-actions__btn {
+  .override-btn;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  color: @default-text-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.button-hover {
+    opacity: .75;
+  }
+}
+
+.player__user-actions {
+  display: flex;
+  align-items: center;
+  width: @circle-progress-size;
+  justify-content: space-between;
+  margin-bottom: 140rpx;
+}

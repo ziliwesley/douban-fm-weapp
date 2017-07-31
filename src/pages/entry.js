@@ -3,7 +3,7 @@ import { connect } from 'labrador-redux';
 import { bindActionCreators } from 'redux';
 
 import ChannelGroup from '../components/channel-group/channel-group.js';
-import Playing from '../components/playing/playing.js';
+import PlayerFooter from '../components/player-footer/player-footer.js';
 
 import { navigateTo } from '../redux/wx-ui.js';
 import { getUserInfo } from '../redux/wx-auth.js';
@@ -40,7 +40,7 @@ class EntryPage extends Component {
 
     children() {
         const { channelGroups, active } = this.props.doubanRadio;
-        const { playing } = this.props.player;
+        const player = this.props.player;
 
         return {
             groups: channelGroups.map(group => ({
@@ -52,10 +52,10 @@ class EntryPage extends Component {
                     onSwitchChannel: this.handleSwitchChannel
                 }
             })),
-            playing: {
-                component: Playing,
+            footer: {
+                component: PlayerFooter,
                 props: {
-                    playing,
+                    player,
                     onPlayNextSong: this.handlePlayNextSong
                 }
             }

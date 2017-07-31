@@ -1,0 +1,27 @@
+<view class="player-footer">
+  <view class="player-footer__circle-progress__container {{state.isPlaying ? 'playing' : ''}}" catchtap="handleClickCover">
+    <image class="player-footer__cover" src="{{props.player.playing.cover}}"></image>
+    <view class="player-footer__circle-progress__left-wrapper">
+      <view class="player-footer__circle-progress__left-inner-circle"
+        style="transform:rotate({{state.leftRotate}}deg)">
+      </view>
+    </view>
+    <view class="player-footer__circle-progress__right-wrapper">
+      <view class="player-footer__circle-progress__right-inner-circle"
+        style="transform:rotate({{state.rightRotate}}deg)">
+      </view>
+    </view>
+  </view>
+  <navigator class="player-footer__intro"
+    url="/pages/player"
+    open-type="navigate">
+    <view class="player-footer__title"><text class="player-footer__title__text">{{props.player.playing.title}} - {{props.player.playing.artist}}</text></view>
+    <text class="player-footer__channel_name">{{props.player.playing.channelName}}</text>
+  </navigator>
+  <button class="player-footer__heart icon-heart"
+    catchtap="handlePauseMusic">
+  </button>
+  <button class="player-footer__play icon-play"
+    catchtap="handlePlayNextSong">
+  </button>
+</view>
