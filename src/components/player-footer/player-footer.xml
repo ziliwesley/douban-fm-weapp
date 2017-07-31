@@ -18,10 +18,10 @@
     <view class="player-footer__title"><text class="player-footer__title__text">{{props.player.playing.title}} - {{props.player.playing.artist}}</text></view>
     <text class="player-footer__channel_name">{{props.player.playing.channelName}}</text>
   </navigator>
-  <button class="player-footer__heart icon-heart"
+  <button class="player-footer__douban-icon-heart"
     catchtap="handlePauseMusic">
   </button>
-  <button class="player-footer__play icon-play"
+  <button class="player-footer__douban-icon-next"
     catchtap="handlePlayNextSong">
   </button>
 </view>

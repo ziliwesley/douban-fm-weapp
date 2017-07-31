@@ -23,9 +23,9 @@
   
   <!--bottom-->
   <view class="player__user-actions">
-    <button class="player__user-actions__btn icon-trash-2"></button>
-    <button class="player__user-actions__btn icon-heart"></button>
-    <button class="player__user-actions__btn icon-play"
+    <button class="player__user-actions__btn-icon-trash"></button>
+    <button class="player__user-actions__btn-icon-heart"></button>
+    <button class="player__user-actions__btn-icon-next"
       catchtap="handlePlayNextSong">
     </button>
   </view>

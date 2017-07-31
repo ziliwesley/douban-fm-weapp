@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { playNextSong, PLAYER_STATUS } from '../../redux/player.js';
 
+// Share same codes with "player" page
 class PlayerFooter extends Component {
     static propTypes = {
         player: PropTypes.object.isRequired,

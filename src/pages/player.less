@@ -1,6 +1,7 @@
 @import "../less/variables.less";
 @import "../less/mixins.less";
 @import "../less/circle-progress.less";
+@import "../less/douban.less";
 
 @circle-progress-size: 460rpx;
 @circle-progress-width: 8rpx;
@@ -60,7 +61,15 @@
   color: @color-comment;
 }
 
-.player__user-actions__btn {
+.player__user-actions {
+  display: flex;
+  align-items: center;
+  width: @circle-progress-size;
+  justify-content: space-between;
+  margin-bottom: 140rpx;
+}
+
+.playerUserActionsBtn() {
   .override-btn;
   width: 32px;
   height: 32px;
@@ -68,16 +77,24 @@
   color: @default-text-color;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-size: 32px 32px;
 
   &.button-hover {
     opacity: .75;
   }
 }
 
-.player__user-actions {
-  display: flex;
-  align-items: center;
-  width: @circle-progress-size;
-  justify-content: space-between;
-  margin-bottom: 140rpx;
+.player__user-actions__btn-icon-trash {
+  .playerUserActionsBtn;
+  .douban-icon-trash;
+}
+
+.player__user-actions__btn-icon-heart {
+  .playerUserActionsBtn;
+  .douban-icon-heart;
+}
+
+.player__user-actions__btn-icon-next {
+  .playerUserActionsBtn;
+  .douban-icon-next;
 }

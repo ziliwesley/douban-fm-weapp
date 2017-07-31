@@ -6,7 +6,8 @@ import { playNextSong, PLAYER_STATUS } from '../redux/player.js';
 
 class Player extends Component {
     static propTypes = {
-        player: PropTypes.object.isRequired
+        player: PropTypes.object.isRequired,
+        playNextSong: PropTypes.func.isRequired
     };
 
     state = {

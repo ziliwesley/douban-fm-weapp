@@ -1,6 +1,7 @@
 @import "variables.less";
 @import "mixins.less";
 @import "circle-progress.less";
+@import "douban.less";
 
 @footer-height: 48px;
 @circle-progress-size: 36px;
@@ -111,15 +112,13 @@
 
 .playerFooterIcon() {
   display: block;
-  font-size: 24px;
-  margin: 0 0 0 @default-margin !important;
+  margin: 0 0 0 @default-margin;
   padding: 0 !important;
-  line-height: 36px;
-  width: 36px;
-  flex: 0 0 36px;
-  height: 36px;
+  width: 24px;
+  flex: 0 0 24px;
+  height: 24px;
   box-sizing: border-box;
-  background: transparent;
+  background-size: 24px 24px !important;
 
   &::after {
     width: inherit;
@@ -133,10 +132,13 @@
   }
 }
 
-.player-footer__heart {
-  .playerFooterIcon();
+.player-footer__douban-icon-heart {
+  .playerFooterIcon;
+  .douban-icon-heart;
 }
 
-.player-footer__play {
-  .playerFooterIcon();
+.player-footer__douban-icon-next {
+  margin-left: @default-margin * 3 !important;
+  .playerFooterIcon;
+  .douban-icon-next;
 }
