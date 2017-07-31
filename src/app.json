@@ -9,6 +9,6 @@
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fcfcfc",
     "navigationBarTextStyle": "black",
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": false
   }
 }

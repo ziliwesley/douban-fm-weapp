@@ -1,8 +1,10 @@
-import { Component, PropTypes } from 'labrador-immutable';
+import wx, { Component, PropTypes } from 'labrador-immutable';
 import { connect } from 'labrador-redux';
 import { bindActionCreators } from 'redux';
 
 import { playNextSong, PLAYER_STATUS } from '../redux/player.js';
+
+import { addHeart, removeHeart, neverPlay } from '../redux/douban-radio.js';
 
 class Player extends Component {
     static propTypes = {
@@ -37,6 +39,32 @@ class Player extends Component {
         return this.props.playNextSong();
     }
 
+    handleToggleHeart = () => {
+        const { like, id } = this.props.player.playing;
+        const { current, duration } = this.props.player.playState;
+
+        if (like) {
+            this.props.removeHeart({
+                songId: id,
+                progress: current / duration * 100
+            });
+        } else {
+            this.props.addHeart({
+                songId: id,
+                progress: current / duration * 100
+            });
+        }
+    }
+
+    handleNeverPlay = () => {
+        const { id } = this.props.player.playing;
+        this.props.neverPlay({
+            songId: id,
+            progress: 0
+        });
+        this.props.playNextSong();
+    }
+
     onUpdate(props) {
         const { playState } = props.player;
         const percentage = playState.current / playState.duration;
@@ -47,6 +75,10 @@ class Player extends Component {
             45 : degree - 135;
         const leftRotate = degree > 180 ?
             degree - 180 - 135 : -135;
+
+        wx.setNavigationBarTitle({
+            title: `${props.player.playing.title} - ${props.player.playing.artist}`
+        });
 
         // TODO check if wechat will do diff operations
         this.setState({
@@ -60,6 +92,9 @@ class Player extends Component {
 export default connect(
     ({ player }) => ({ player }),
     dispatch => bindActionCreators({
-        playNextSong
+        playNextSong,
+        addHeart,
+        removeHeart,
+        neverPlay
     }, dispatch)
 )(Player);

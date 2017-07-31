@@ -30,18 +30,23 @@ const PLAY_STATE_CHECK_INTERVAL = 1000;
 /**
  * 加载播放列表
  * @param  {string} token      豆瓣 accessToken
+ * @param  {string} userId     用户 Id
  * @param  {string} channelId  频道 Id
  * @return {Promise}
  */
-function fetchPlaylist(token, channelId) {
+function fetchPlaylist(token, userId, channelId) {
     const options = {
         method: 'GET',
         url: `https://api.douban.com/v2/fm/playlist?apikey=02f7751a55066bcb08e65f4eff134361&max=30&channel=${channelId}&kbps=64&type=n&version=651&audio_patch_version=4&mode=offline&app_name=radio_android&user_accept_play_third_party=1&client=s%3Amobile%7Cv%3A4.6.11%7Cy%3Aandroid+5.1.1%7Cf%3A651%7Cm%3AOPPO%7Cd%3A7e91aa3bc63255a67f8907ec0e6a381c726fb34d%7Ce%3Aoneplus_one_e1001`
     };
 
+    if (userId) {
+        options.url += `&user_id=${userId}`;
+    }
+
     if (token) {
         options.header = {
-            'Content-Type': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         };
     }
 
@@ -103,8 +108,8 @@ export function* startListenPlayerState() {
  */
 export function* updatePlaylistWorker({ payload: channelId }) {
     try {
-        const token = yield select(state => state.doubanAuth.accessToken);
-        const res = yield call(fetchPlaylist, token, channelId);
+        const { accessToken: token, userId } = yield select(state => state.doubanAuth);
+        const res = yield call(fetchPlaylist, token, userId, channelId);
         yield put(updatePlaylistSuccess(res.song));
     } catch (err) {
         yield put(updatePlaylistFailure(err));

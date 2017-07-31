@@ -18,8 +18,8 @@
     <view class="player-footer__title"><text class="player-footer__title__text">{{props.player.playing.title}} - {{props.player.playing.artist}}</text></view>
     <text class="player-footer__channel_name">{{props.player.playing.channelName}}</text>
   </navigator>
-  <button class="player-footer__douban-icon-heart"
-    catchtap="handlePauseMusic">
+  <button class="player-footer__douban-icon-heart {{props.player.playing.like ? 'player-footer__douban-icon-heart--active' : ''}}"
+    catchtap="handleToggleHeart">
   </button>
   <button class="player-footer__douban-icon-next"
     catchtap="handlePlayNextSong">

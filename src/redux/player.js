@@ -61,6 +61,7 @@ export const INITIAL_STATE = {
     next: 0,
     // 当前播放歌曲信息
     playing: {
+        id: '',
         url: '',
         cover: '',
         title: '',
@@ -91,6 +92,7 @@ export default handleActions({
         ...state,
         next: 0,
         playlist: action.payload.map(src => ({
+            id: src.sid,
             url: src.url,
             cover: src.picture,
             title: src.title,
@@ -102,5 +104,21 @@ export default handleActions({
     PLAY_PROGRESS_UPDATE: (state, action) => ({
         ...state,
         playState: action.payload
+    }),
+    // 添加红心
+    ADD_HEART: (state, action) => ({
+        ...state,
+        playing: {
+            ...state.playing,
+            like: true
+        }
+    }),
+    // 移除红心
+    REMOVE_HEART: (state, action) => ({
+        ...state,
+        playing: {
+            ...state.playing,
+            like: false
+        }
     })
 }, INITIAL_STATE)
