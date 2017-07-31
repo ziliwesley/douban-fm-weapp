@@ -8,7 +8,6 @@ export const STOP_MUSIC_SUCCESS = 'STOP_MUSIC_SUCCESS';
 export const STOP_MUSIC_FAILURE = 'STOP_MUSIC_FAILURE';
 
 export const PLAY_PROGRESS_UPDATE = 'PLAY_PROGRESS_UPDATE';
-export const PLAY_PROGRESS_COMPLETE = 'PLAY_PROGRESS_COMPLETE';
 
 export const START_AUTO_PLAY = 'START_AUTO_PLAY';
 export const STOP_AUTO_PLAY = 'STOP_AUTO_PLAY';
@@ -36,8 +35,6 @@ export const stopMusic = createAction(STOP_MUSIC);
 
 // 播放进度更新
 export const playProgressUpdate = createAction(PLAY_PROGRESS_UPDATE);
-// 播放进度完成
-export const playProgressComplete = createAction(PLAY_PROGRESS_COMPLETE);
 
 // 开始自动播放
 export const startAutoPlay = createAction(startAutoPlay);
@@ -80,19 +77,6 @@ export const INITIAL_STATE = {
 };
 
 export default handleActions({
-    PLAY_MUSIC: (state, action) => ({
-        ...state
-    }),
-    // NOTE
-    // Currently the listener which watches the playstate changes will
-    // also be paused.
-    PAUSE_MUSIC: (state, action) => ({
-        ...state,
-        playState: {
-            ...state.playState,
-            status: PLAYER_STATUS.PAUSED
-        }
-    }),
     PLAY_NEXT_SONG_SUCCESS: (state, action) => ({
         ...state,
         current: action.payload.current,
@@ -116,10 +100,6 @@ export default handleActions({
         }))
     }),
     PLAY_PROGRESS_UPDATE: (state, action) => ({
-        ...state,
-        playState: action.payload
-    }),
-    PLAY_PROGRESS_COMPLETE: (state, action) => ({
         ...state,
         playState: action.payload
     })

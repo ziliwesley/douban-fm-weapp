@@ -1,5 +1,5 @@
 import wx from 'labrador-immutable';
-import { takeLatest, takeEvery, effects, eventChannel, END } from 'redux-saga';
+import { takeLatest, takeEvery, effects, eventChannel, delay } from 'redux-saga';
 
 import request from '../utils/douban-request.js';
 import {
@@ -10,10 +10,7 @@ import {
     playMusic,
     pauseMusic,
     stopMusic,
-    PLAY_PROGRESS_UPDATE,
-    PLAY_PROGRESS_COMPLETE,
     playProgressUpdate,
-    playProgressComplete,
     PLAY_NEXT_SONG,
     playNextSong,
     playNextSongSuccess,
@@ -73,50 +70,6 @@ export function* getCurrentChannel() {
         name: '',
         id: active
     };
-}
-
-/**
- * 监听播放进度状态
- * e.g. 播放到第几秒, 是否下载完成
- * @return {EventChannel}
- */
-function startListenPlayProgressChange() {
-    return eventChannel(emitter => {
-        const task = setInterval(() => {
-            wx.getBackgroundAudioPlayerState()
-                .then(res => {
-                    const {
-                        currentPosition: current,
-                        duration,
-                        status
-                    } = res;
-                    let actionCreator;
-
-                    // 切换频道期间没有正在播放的歌曲
-                    if (status === PLAYER_STATUS.IDLE) {
-                        return;
-                    }
-
-                    if (duration === current) {
-                        actionCreator = playProgressComplete;
-                        clearInterval(task);
-                    } else {
-                        actionCreator = playProgressUpdate;
-                    }
-
-                    emitter(actionCreator({
-                        current,
-                        duration,
-                        status
-                    }));
-                });
-        }, PLAY_STATE_CHECK_INTERVAL);
-
-        return () => {
-            clearInterval(task);
-            console.log('startListenPlayProgressChange() cancelled');
-        }
-    });
 }
 
 /**
@@ -249,6 +202,37 @@ export function* autoPlayWorker() {
 }
 
 /**
+ * 更新微信后台歌曲播放状态 Worker
+ */
+export function* updatePlayStateWorker() {
+    try {
+        const {
+            currentPosition: current,
+            duration,
+            status
+        } = yield call(wx.getBackgroundAudioPlayerState);
+
+        const previousPlayState = yield select(state => state.player.playState);
+
+        // Avoid identical actions being dispatched
+        if (current === previousPlayState.current &&
+            duration === previousPlayState.duration &&
+            status === previousPlayState.status) {
+            return;
+        }
+
+        yield put(playProgressUpdate({
+            current,
+            duration,
+            status
+        }));
+    } catch (err) {
+        console.error('Unable to get playState of wx background audio plaeyr');
+        console.error(err);
+    }
+}
+
+/**
  * 播放状态相关 Watcher
  */
 export function* playStateWatcher() {
@@ -262,21 +246,14 @@ export function* playStateWatcher() {
     yield takeLatest(playerStateEventChannel, redispatch);
 
     while (true) {
-        // Wait until music is playing
-        yield take(PLAY_MUSIC);
+        yield race({
+            delay: delay(PLAY_STATE_CHECK_INTERVAL),
+            play: take(PLAY_MUSIC),
+            pause: take(PAUSE_MUSIC),
+            stop: take(STOP_MUSIC)
+        });
 
-        let activePlayStateEventChannel = yield call(startListenPlayProgressChange);
-        let activeWatcherTask = yield takeEvery(activePlayStateEventChannel, redispatch);
-
-        // Wait untill music is paused
-        yield take([PAUSE_MUSIC, STOP_MUSIC]);
-
-        activePlayStateEventChannel.close();
-        yield cancel(activeWatcherTask);
-
-        // These should be optional
-        // activeWatcherTask = null;
-        // activePlayStateEventChannel = null;
+        yield fork(updatePlayStateWorker);
     }
 }
 
