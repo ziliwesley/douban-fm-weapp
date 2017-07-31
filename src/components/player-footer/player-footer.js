@@ -2,12 +2,12 @@ import wx, { Component, PropTypes } from 'labrador-immutable';
 import { connect } from 'labrador-redux';
 import { bindActionCreators } from 'redux';
 
-import { PLAYER_STATUS } from '../../redux/player.js';
+import { playNextSong, PLAYER_STATUS } from '../../redux/player.js';
 
-export default class Playing extends Component {
+class PlayerFooter extends Component {
     static propTypes = {
         player: PropTypes.object.isRequired,
-        onPlayNextSong: PropTypes.func.isRequired
+        playNextSong: PropTypes.func.isRequired
     };
 
     state = {
@@ -33,12 +33,8 @@ export default class Playing extends Component {
         }
     }
 
-    handlePauseMusic = () => {
-        return wx.pauseBackgroundAudio();
-    }
-
     handlePlayNextSong = () => {
-        return this.props.onPlayNextSong();
+        return this.props.playNextSong();
     }
 
     onUpdate(props) {
@@ -60,3 +56,10 @@ export default class Playing extends Component {
         });
     }
 }
+
+export default connect(
+    ({ player }) => ({ player }),
+    dispatch => bindActionCreators({
+        playNextSong
+    }, dispatch)
+)(PlayerFooter);

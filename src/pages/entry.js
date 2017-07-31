@@ -8,9 +8,6 @@ import PlayerFooter from '../components/player-footer/player-footer.js';
 import { navigateTo } from '../redux/wx-ui.js';
 import { getUserInfo } from '../redux/wx-auth.js';
 import { fetchChannelList, switchChannel } from '../redux/douban-radio.js';
-import { playNextSong } from '../redux/player.js';
-
-import { sleep } from '../utils/utils.js';
 
 class EntryPage extends Component {
     onPullDownRefresh() {
@@ -34,10 +31,6 @@ class EntryPage extends Component {
         return this.props.switchChannel(id);
     };
 
-    handlePlayNextSong = () => {
-        return this.props.playNextSong();
-    };
-
     children() {
         const { channelGroups, active } = this.props.doubanRadio;
         const player = this.props.player;
@@ -53,11 +46,7 @@ class EntryPage extends Component {
                 }
             })),
             footer: {
-                component: PlayerFooter,
-                props: {
-                    player,
-                    onPlayNextSong: this.handlePlayNextSong
-                }
+                component: PlayerFooter
             }
         }
     }
@@ -67,18 +56,15 @@ export default connect(
     ({
         doubanAuth,
         wechatAuth,
-        doubanRadio,
-        player
+        doubanRadio
     }) => ({
         doubanAuth,
         wechatAuth,
-        doubanRadio,
-        player
+        doubanRadio
     }),
     (dispatch) => bindActionCreators({
         getUserInfo,
         fetchChannelList,
-        switchChannel,
-        playNextSong
+        switchChannel
     }, dispatch)
 )(EntryPage);
