@@ -1,0 +1,42 @@
+import { createStore, applyMiddleware, compose } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
+import createSagaMiddleware from 'redux-saga';
+import AsyncStorage from './utils/redux-persist-weapp.js';
+
+import rootReducer from './reducer/index.js';
+import rootSaga from './sagas/index.js';
+
+const persistConfig = {
+    storage: AsyncStorage,
+    whitelist: [ 'doubanAuth', 'wechatAuth' ],
+    debounce: 5000
+};
+
+export default function configureStore() {
+    const middleware = [];
+    const enhancers = [];
+
+    // saga中间件
+    const sagaMiddleware = createSagaMiddleware();
+    middleware.push(sagaMiddleware);
+
+    // 合并中间件
+    enhancers.push(applyMiddleware(...middleware));
+    // persist rehydrate
+    enhancers.push(autoRehydrate());
+
+    const store = createStore(rootReducer, compose(...enhancers));
+
+    // init redux persist
+    persistStore(store, persistConfig, () => {
+        // dispatch startup action
+        store.dispatch({
+            type: 'STARTUP'
+        });
+    });
+
+    // kick off root saga
+    sagaMiddleware.run(rootSaga);
+
+    return store;
+}

@@ -1,0 +1,32 @@
+<view class="player-page container">
+  <view class="player__circle-progress__container {{playState.isPlaying ? 'playing' : ''}}" catchtap="handleClickCover">
+    <image class="player__circle-progress__content" src="{{playing.cover}}" />
+    <view class="player__circle-progress__left-wrapper">
+      <view class="player__circle-progress__left-inner-circle"
+        style="transform:rotate({{playState.leftRotate}}deg)">
+      </view>
+    </view>
+    <view class="player__circle-progress__right-wrapper">
+      <view class="player__circle-progress__right-inner-circle"
+        style="transform:rotate({{playState.rightRotate}}deg)">
+      </view>
+    </view>
+  </view>
+  <view class="player-song-info">
+    <text class="player-song-info__song-title">{{playing.title}}</text>
+    <text class="player-song-info__artist">{{playing.artist}}</text>
+  </view>
+  
+  <!--bottom-->
+  <view class="player__user-actions">
+    <button class="player__user-actions__btn-icon-trash"
+      catchtap="handleNeverPlay">
+    </button>
+    <button class="player__user-actions__btn-icon-heart {{playing.like ? 'player__user-actions__btn-icon-heart--active' : ''}}"
+      catchtap="handleToggleHeart">
+    </button>
+    <button class="player__user-actions__btn-icon-next"
+      catchtap="handlePlayNextSong">
+    </button>
+  </view>
+</view>

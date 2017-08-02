@@ -1,0 +1,29 @@
+<template name="playerFooter">
+  <view class="player-footer">
+    <view class="player-footer__circle-progress__container {{playState.isPlaying ? 'playing' : ''}}" catchtap="handleClickCover">
+      <image class="player-footer__cover" src="{{playing.cover}}"></image>
+      <view class="player-footer__circle-progress__left-wrapper">
+        <view class="player-footer__circle-progress__left-inner-circle"
+          style="transform:rotate({{playState.leftRotate}}deg)">
+        </view>
+      </view>
+      <view class="player-footer__circle-progress__right-wrapper">
+        <view class="player-footer__circle-progress__right-inner-circle"
+          style="transform:rotate({{playState.rightRotate}}deg)">
+        </view>
+      </view>
+    </view>
+    <navigator class="player-footer__intro"
+      url="/pages/player"
+      open-type="navigate">
+      <view class="player-footer__title"><text class="player-footer__title__text">{{playing.title}} - {{playing.artist}}</text></view>
+      <text class="player-footer__channel_name">{{playing.channelName}}</text>
+    </navigator>
+    <button class="player-footer__douban-icon-heart {{playing.like ? 'player-footer__douban-icon-heart--active' : ''}}"
+      catchtap="handleToggleHeart">
+    </button>
+    <button class="player-footer__douban-icon-next"
+      catchtap="handlePlayNextSong">
+    </button>
+  </view>
+</template>

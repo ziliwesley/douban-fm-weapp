@@ -1,30 +1,43 @@
-import { Component, PropTypes } from 'labrador-immutable';
-import { connect } from 'labrador-redux';
-import { bindActionCreators } from 'redux';
+import { store, connect, bindActionCreators, actions, utils } from '../bundle.js';
 
-import { navigateTo } from '../redux/wx-ui.js';
-import { getUserInfo } from '../redux/wx-auth.js';
-import { openSetting, clearStorage } from '../redux/wx-api.js';
+const {
+    getUserInfo,
+    openSetting,
+    clearStorage
+} = actions;
 
-class SettingPage extends Component {
-    handleGetUserInfo = () => {
-        this.props.getUserInfo();
-    }
-
-    handleClearStorage = () => {
-        this.props.clearStorage();
-    }
-
-    handleOpenSetting = () => {
-        this.props.openSetting();
-    }
-}
-
-export default connect(
-    ({ doubanAuth, wechatAuth }) => ({ doubanAuth, wechatAuth }),
-    (dispatch) => bindActionCreators({
+Page(connect.Page(
+    store,
+    state => ({
+        doubanAuth: state.doubanAuth,
+        wechatAuth: state.wechatAuth
+    }),
+    dispatch => bindActionCreators({
         getUserInfo,
         openSetting,
         clearStorage
     }, dispatch)
-)(SettingPage);
+)({
+    data: {},
+
+    handleGetUserInfo() {
+        this.getUserInfo();
+    },
+
+    handleClearStorage() {
+        this.clearStorage();
+    },
+
+    handleOpenSetting() {
+        this.openSetting();
+    },
+
+    onLoad() {
+        // 
+    },
+
+    onStateChange(nextState) {
+        const differences = utils.shallowDiff(this, nextState);
+        this.setData(differences);
+    }
+}));

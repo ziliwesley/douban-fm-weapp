@@ -1,5 +1,0 @@
-<view class="channel {{props.isActive ? 'active-channel' : ''}}"
-  catchtap="handleSwitchChannel">
-  <image class="channel-cover" src="{{props.channel.cover}}" />
-  <text class="channel-name channel-mhz">{{props.channel.name}}</text>
-</view>

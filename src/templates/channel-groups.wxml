@@ -1,0 +1,14 @@
+<import src="/templates/channel.wxml" />
+<template name="channelGroups">
+  <view wx:for="{{groups}}" wx:for-item="group" wx:key="group_id" class="channel-group">
+    <view wx:if="{{group.group_name !== ''}}" class="channel-group-title">
+      <text class="channel-group-name">{{group.group_name}}</text>
+    </view>
+    <view class="channel-list">
+      <list key="channels" name="channel" />
+      <block wx:for="{{group.chls}}" wx:for-item="channel" wx:key="id">
+        <template is="channel" data="{{channel: channel, isActive: current === channel.id }}" />
+      </block>
+    </view>
+  </view>
+</template>

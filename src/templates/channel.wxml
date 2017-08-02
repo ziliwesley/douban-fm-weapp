@@ -1,0 +1,8 @@
+<template name="channel">
+  <view class="channel {{isActive ? 'active-channel' : ''}}"
+  catchtap="handleSwitchChannel"
+  data-channel-id="{{channel.id}}">
+    <image class="channel-cover" src="{{channel.cover}}" />
+    <text class="channel-name channel-mhz">{{channel.name}}</text>
+  </view>
+</template>

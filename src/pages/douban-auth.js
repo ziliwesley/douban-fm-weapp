@@ -1,8 +1,8 @@
-import { Component, PropTypes } from 'labrador-immutable';
-import { connect } from 'labrador-redux';
-import { bindActionCreators } from 'redux';
+import { store, connect, bindActionCreators, actions, utils } from '../bundle.js';
 
-import { loginDouban } from '../redux/douban-auth.js';
+const {
+    loginDouban
+} = actions;
 
 /**
  * Simply make sure both fields are not empty
@@ -14,60 +14,78 @@ function validateInput(username, password) {
     return !(username.length > 0 && password.length > 0);
 }
 
-class DoubanAuth extends Component {
-    static propTypes = {
-        loginDouban: PropTypes.func
-    };
+Page(connect.Page(
+    store,
+    state => ({
+        doubanAuth: state.doubanAuth
+    }),
+    dispatch => bindActionCreators({
+        loginDouban
+    }, dispatch)
+)({
+    data: {
+        userInput: {
+            username: '',
+            password: '',
+            loginBtnDisabled: true
+        }
+    },
 
-    state = {
-        loginBtnDisabled: true,
-        username: '',
-        password: ''
-    }
-
-    handleUsernameChange = (ev) => {
+    handleUsernameChange(ev) {
         let username = ev.detail.value;
-        let password = this.state.password;
+        let password = this.data.userInput.password;
 
-        this.setState({
-            username,
-            loginBtnDisabled: validateInput(username, password)
-        });
-    }
+        this.setData({
+            userInput: {
+                username,
+                password,
+                loginBtnDisabled: validateInput(username, password)
+            }
+        })
+    },
 
-    handlePasswordChange = (ev) => {
-        let username = this.state.username;
+    handlePasswordChange(ev) {
+        let username = this.data.userInput.username;
         let password = ev.detail.value;
 
-        this.setState({
-            password,
-            loginBtnDisabled: validateInput(username, password)
+        this.setData({
+            userInput: {
+                username,
+                password,
+                loginBtnDisabled: validateInput(username, password)
+            }
         });
-    }
+    },
 
-    handleRequestDoubanLogin = () => {
-        const { username, password }  = this.state;
+    handleRequestDoubanLogin() {        
+        const { username, password } = this.data.userInput;
 
-        this.props.loginDouban({
+        if (process.env.NODE_ENV === 'development') {
+            console.log(`dispatch loginDouban(), using`, { username, password });
+        }
+
+        this.loginDouban({
             username,
             password
         });
-    }
+    },
 
-    onLoad() {
-        const username = this.props.doubanAuth.loginName;
+    onShow() {
+        const username = this.data.doubanAuth.loginName;
 
         if (username) {
-            this.setState({
-                username
+            this.setData({
+                userInput: {
+                    ...this.data.userInput,
+                    username,
+                    password: ''
+                }
             })
         }
-    }
-}
+    },
 
-export default connect(
-    ({ doubanAuth }) => ({ doubanAuth }),
-    (dispatch) => bindActionCreators({
-        loginDouban
-    }, dispatch)
-)(DoubanAuth);
+    onStateChange(nextState) {
+        const differences = utils.shallowDiff(this, nextState);
+        this.setData(differences);
+    }
+}));

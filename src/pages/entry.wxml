@@ -1,0 +1,27 @@
+<import src="/templates/channel-groups.wxml" />
+<import src="/templates/player-footer.wxml" />
+<view class="entry-page container {{wechatAuth.authorized ? 'authorized' : ''}}">
+  <!-- 已获取微信用户信息 -->
+  <view class="header">
+    <image class="user-avatar"
+      src="{{wechatAuth.avatarUrl}}" />
+    <view class="user-identity">
+      <text class="wechat-nickname">{{wechatAuth.nickName}}</text>
+      <view wx:if="{{doubanAuth.accessToken}}" class="douban-status">
+        <text class="douban-label">douban</text>
+        <text>{{doubanAuth.userName}}</text>  
+      </view>
+      <navigator wx:else class="douban-status" url="/pages/douban-auth" open-type="navigate">
+        <text class="douban-label warning">尚未绑定豆瓣账户</text>
+      </navigator>
+    </view>
+    <view class="user-actions">
+      <navigator url="/pages/setting" open-type="navigate" class="icon icon-cog"></navigator>
+    </view>
+  </view>
+  <view class="content">
+    <template is="channelGroups" data="{{groups: doubanRadio.channelGroups, current: doubanRadio.active}}" />
+  </view>
+  <template is="playerFooter" data="{{playing: playing, playState: playState}}"></template>
+  <component key="footer" name="player-footer"></component>
+</view>

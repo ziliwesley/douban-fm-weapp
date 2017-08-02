@@ -1,0 +1,27 @@
+<view class="login-page container">
+  <view class="form">
+    <view class="input-group">
+      <input class="input input-text"
+        bindinput="handleUsernameChange"
+        value="{{username}}"
+        placeholder="邮箱/用户名" autofocus/>
+      <input class="input input-password"
+        type="password"
+        bindinput="handlePasswordChange"
+        value="{{password}}"
+        placeholder="密码"/>
+    </view>
+
+    <button class="btn btn-primary"
+      disabled="{{loginBtnDisabled || props.doubanAuth.fetching}}"
+      loading="{{doubanAuth.fetching}}"
+      catchtap="handleRequestDoubanLogin">
+      登录
+    </button>
+    <text class="paragraph comment">使用豆瓣 FM 账号密码进行登录并建立关联</text>
+    <block wx:if="{{doubanAuth.error}}">
+      <text class="paragraph comment error">{{props.doubanAuth.error}}</text>
+    </block>
+    <block wx:else></block>
+  </view>
+</view>
