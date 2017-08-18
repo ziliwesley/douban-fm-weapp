@@ -1,32 +1,30 @@
 // tools/webpack/index.js
 
 const path = require('path');
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CssEntryPlugin = require('css-entry-webpack-plugin');
 
 const webpackUtils = require('../utils/webpack.js');
-
 const PROJECT_ROOT = path.resolve(__dirname, '../../');
 
-// const baseConfig = require('./base.js');
-
+/**
+ * Application's main bundle
+ * Consists:
+ * - React, Redux
+ * - Redux store, actions, saga
+ * - Utilities
+ * - Wrapper for wx's API
+ * - Constants
+ * @type {Object}
+ */
 const libConfig = {
-    // sourcemap 选项, 建议开发时包含sourcemap, production版本时去掉(节能减排)
-    devtool: 'inline-source-map',
-
     context: PROJECT_ROOT,
 
     entry: {
-        // application's main bundle
         lib: './src/bundle.js'
     },
 
     output: {
         path: path.join(PROJECT_ROOT, 'dist'),
-
         filename: 'bundle.js',
-
         libraryTarget: 'umd'
     },
 
@@ -36,6 +34,7 @@ const libConfig = {
                 test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
                 include: path.join(PROJECT_ROOT, 'src/lib'),
+                // Will not transpile any codes inside `node_modules` directory
                 exclude: path.join(PROJECT_ROOT, 'node_modules')
             }
         ]
@@ -44,34 +43,10 @@ const libConfig = {
     resolve: {
         extensions: ['.js'],
         modules: ['node_modules']
-    },
-
-    plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
-
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('development')
-            }
-        }),
-
-        // https://github.com/kevlened/copy-webpack-plugin
-        new CopyWebpackPlugin([{
-            from: path.join(PROJECT_ROOT, 'src'),
-            to: path.join(PROJECT_ROOT, 'dist')
-        }], {
-            ignore: [
-                '*.js',
-                '*.less'
-            ]
-        })
-    ]
+    }
 };
 
 const pageScriptsConfig = {
-    // sourcemap 选项, 建议开发时包含sourcemap, production版本时去掉(节能减排)
-    devtool: 'source-map',
-
     context: PROJECT_ROOT,
 
     entry: () => webpackUtils.searchPages(PROJECT_ROOT, 'js'),
@@ -88,6 +63,7 @@ const pageScriptsConfig = {
                 test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
                 include: path.join(PROJECT_ROOT, 'src'),
+                // Will not transpile any codes inside `node_modules` directory
                 exclude: path.join(PROJECT_ROOT, 'node_modules')
             }
         ]
@@ -98,23 +74,14 @@ const pageScriptsConfig = {
         modules: ['node_modules']
     },
 
-    externals: /\.\/bundle\.js/,
-
-    plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
-
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('development')
-            }
-        })
-    ]
+    // ```js
+    // require('../bundle.js')
+    // ```
+    // Code like this will be ignored when trying to resolve dependencies
+    externals: /\.\/bundle\.js/
 };
 
 const pageStylesConfig = {
-    // sourcemap 选项, 建议开发时包含sourcemap, production版本时去掉(节能减排)
-    devtool: 'source-map',
-
     context: PROJECT_ROOT,
 
     entry: () => webpackUtils.searchPages(PROJECT_ROOT, 'less'),
@@ -139,22 +106,12 @@ const pageStylesConfig = {
 
     resolve: {
         extensions: ['.css', '.less']
-        // modules: ['node_modules']
-    },
-
-    plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
-
-        new CssEntryPlugin({
-            output: {
-                filename: '[name].wxss'
-            }
-        })
-    ]
+    }
 };
 
-module.exports = [
+module.exports = {
     libConfig,
     pageScriptsConfig,
-    pageStylesConfig
-];
+    pageStylesConfig,
+    PROJECT_ROOT
+};

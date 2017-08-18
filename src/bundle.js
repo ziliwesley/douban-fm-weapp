@@ -10,7 +10,7 @@ import wx from './lib/wx.js';
 import * as actions from './lib/actions/index.js';
 import * as utils from './lib/utils/index.js';
 
-import { PLAYER_STATUS } from './lib/reducer/player.js'
+import { PLAYER_STATUS } from './lib/reducer/play-state-reducer.js'
 
 // Other constants
 const constants = {

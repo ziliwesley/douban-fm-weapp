@@ -1,3 +1,4 @@
+// src/lib/reducer/wx-auth-reducer.js
 import { handleActions } from 'redux-actions';
 
 // 初始state
@@ -15,12 +16,12 @@ export const INITIAL_STATE = {
 
 export default handleActions({
     // 获取用户信息
-    GET_USER_INFO: state =>
+    WX_GET_USER_INFO: state =>
         ({
             ...state,
             requesting: true
         }),
-    GET_USER_INFO_SUCCESS: (state, action) =>
+    WX_GET_USER_INFO_SUCCESS: (state, action) =>
         ({
             ...state,
             nickName: action.payload.nickName,
@@ -32,10 +33,11 @@ export default handleActions({
             requesting: false,
             authorized: true
         }),
-    GET_USER_INFO_FAILURE: state =>
+    WX_GET_USER_INFO_FAILURE: state =>
         ({
             ...state,
             requesting: false,
             authorized: false
-        })
+        }),
+    WX_CLEAR_STORAGE: () => INITIAL_STATE
 }, INITIAL_STATE);

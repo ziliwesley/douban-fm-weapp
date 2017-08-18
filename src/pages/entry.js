@@ -1,30 +1,32 @@
+// src/pages/entry.js
 import { wx, store, connect, bindActionCreators, actions, utils, constants } from '../bundle.js';
 
 const {
-    getUserInfo,
-    fetchChannelList,
+    wxGetUserInfo,
     switchChannel,
     playNextSong,
     addHeart,
-    removeHeart
+    removeHeart,
+    reload
 } = actions;
 
 Page(connect.Page(
     store,
     state => ({
+        app: state.app,
         doubanAuth: state.doubanAuth,
         wechatAuth: state.wechatAuth,
         doubanRadio: state.doubanRadio,
-        playing: state.player.playing,
-        playState: state.player.playState
+        playing: state.player,
+        playState: state.playState
     }),
     dispatch => bindActionCreators({
-        getUserInfo,
-        fetchChannelList,
+        wxGetUserInfo,
         switchChannel,
         playNextSong,
         addHeart,
-        removeHeart
+        removeHeart,
+        reload
     }, dispatch)
 )({
     data: {},
@@ -84,8 +86,13 @@ Page(connect.Page(
     },
 
     onLoad() {
-        this.getUserInfo('scope.userInfo');
-        this.fetchChannelList();
+        this.wxGetUserInfo();
+    },
+
+    onPullDownRefresh() {
+        if (!this.data.app.reloading) {
+            this.reload();
+        }
     },
 
     onStateChange(nextState) {

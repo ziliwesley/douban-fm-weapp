@@ -1,5 +1,8 @@
+// src/lib/wx.js
 // 基于
 // https://github.com/maichong/labrador/blob/master/index.js
+
+/* global wx*/
 
 // 特别指定的wx对象中不进行Promise封装的方法
 const hasNoPromiseMethods = {

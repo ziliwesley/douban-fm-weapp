@@ -1,4 +1,4 @@
-
+// src/lib/utils/redux.js
 const prevStates = new WeakMap();
 
 /**
@@ -32,13 +32,13 @@ export function shallowDiff(instance, nextState) {
         }
     }
 
-    if (process.env.NODE_ENV === 'development') {
-        if (Object.keys(difference).length) {
-            console.log('shallowDiff(): Found Diff', difference);
-        } else {
-            console.log('shallowDiff(): No Diff Found.');
-        }
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //     if (Object.keys(difference).length) {
+    //         console.log('shallowDiff(): Found Diff', difference);
+    //     } else {
+    //         console.log('shallowDiff(): No Diff Found.');
+    //     }
+    // }
 
     prevStates.set(instance, nextState);
     return difference;

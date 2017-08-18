@@ -9,11 +9,7 @@ env:
 
 globals:
   App: true,
-  wx: true,
   Page: true
-
-ecmaFeatures:
-  modules: true
 
 rules:
   no-console: 0

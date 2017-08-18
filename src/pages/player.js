@@ -1,3 +1,4 @@
+// src/pages/player.js
 import { wx, store, connect, bindActionCreators, actions, utils, constants } from '../bundle.js';
 
 const {
@@ -10,8 +11,8 @@ const {
 Page(connect.Page(
     store,
     state => ({
-        playing: state.player.playing,
-        playState: state.player.playState
+        playing: state.player,
+        playState: state.playState
     }),
     dispatch => bindActionCreators({
         playNextSong,
@@ -72,10 +73,6 @@ Page(connect.Page(
             progress: 0
         });
         this.playNextSong();
-    },
-
-    onLoad() {
-        
     },
 
     onStateChange(nextState) {

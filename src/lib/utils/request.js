@@ -1,3 +1,4 @@
+// src/lib/utils/request.js
 import wx from '../wx.js';
 
 async function request({

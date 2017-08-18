@@ -1,3 +1,4 @@
+// src/pages/douban-auth.js
 import { store, connect, bindActionCreators, actions, utils } from '../bundle.js';
 
 const {

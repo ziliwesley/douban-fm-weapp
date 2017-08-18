@@ -1,9 +1,10 @@
+// src/pages/setting.js
 import { store, connect, bindActionCreators, actions, utils } from '../bundle.js';
 
 const {
-    getUserInfo,
-    openSetting,
-    clearStorage
+    wxGetUserinfo,
+    wxOpenSetting,
+    wxClearStorage
 } = actions;
 
 Page(connect.Page(
@@ -13,27 +14,23 @@ Page(connect.Page(
         wechatAuth: state.wechatAuth
     }),
     dispatch => bindActionCreators({
-        getUserInfo,
-        openSetting,
-        clearStorage
+        wxGetUserinfo,
+        wxOpenSetting,
+        wxClearStorage
     }, dispatch)
 )({
     data: {},
 
     handleGetUserInfo() {
-        this.getUserInfo();
+        this.wxGetUserinfo();
     },
 
     handleClearStorage() {
-        this.clearStorage();
+        this.wxClearStorage();
     },
 
     handleOpenSetting() {
-        this.openSetting();
-    },
-
-    onLoad() {
-        // 
+        this.wxOpenSetting();
     },
 
     onStateChange(nextState) {

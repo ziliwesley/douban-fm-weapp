@@ -1,3 +1,4 @@
+// src/lib/actions/douban-auth-act.js
 import { createAction } from 'redux-actions';
 
 export const DOUBAN_LOGIN = 'DOUBAN_LOGIN';

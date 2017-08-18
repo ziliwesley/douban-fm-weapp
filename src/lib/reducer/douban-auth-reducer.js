@@ -1,3 +1,4 @@
+// src/lib/reducer/douban-auth-reducer.js
 import { handleActions } from 'redux-actions';
 
 // 初始 state
@@ -34,5 +35,6 @@ export default handleActions({
         ...state,
         fetching: false,
         error: `${action.payload.request}: ${action.payload.msg} (${action.payload.code})`
-    })
+    }),
+    WX_CLEAR_STORAGE: () => INITIAL_STATE
 }, INITIAL_STATE);

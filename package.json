@@ -1,11 +1,13 @@
 {
-  "name": "douban-fm-weapp-refactor",
-  "version": "0.1.0",
+  "name": "douban-fm-weapp",
+  "version": "0.2.0",
   "description": "Unofficial Douban FM client on weapp",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "webpack --watch --progress --colors --config tools/webpack/dev-config.js",
+    "lint": "eslint src/**/**.js",
+    "start": "webpack --watch --progress --colors --config build/webpack/dev.webpack.config.js",
+    "build": "npm run test && npm run clean && webpack --progress --colors --config build/webpack/prod.webpack.config.js",
     "test": "jest"
   },
   "author": "ziliwesley",
@@ -13,6 +15,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -23,11 +26,13 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-entry-webpack-plugin": "^1.0.0-beta.4",
     "css-loader": "^0.28.4",
+    "eslint": "^4.4.1",
     "fs-jetpack": "^1.1.0",
     "glob": "^7.1.2",
     "jest": "^20.0.4",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "webpack": "^2.7.0"
   },
   "dependencies": {

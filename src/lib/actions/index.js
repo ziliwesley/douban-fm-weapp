@@ -1,71 +1,46 @@
+// src/lib/actions/index.js
+
+// App life-cycle
+export {
+    reload
+} from './app-act.js';
+
 // douban-auth
 export {
     loginDouban,
-    logoutDouban,
-    loginDoubanSuccess,
-    loginDoubanFailure
-} from './douban-auth.js';
+    logoutDouban
+} from './douban-auth-act.js';
 
 // douban-radio
 export {
     fetchChannelList,
-    fetchChannelListSuccess,
-    fetchChannelListFailure,
     switchChannel,
-    switchChannelSuccess,
-    switchChannelFailure,
     addHeart,
-    addHeartSuccess,
-    addHeartFailure,
     removeHeart,
-    removeHeartSuccess,
-    removeHeartFailure,
-    neverPlay,
-    neverPlaySuccess,
-    neverPlayFailure
-} from './douban-radio.js';
+    neverPlay
+} from './douban-radio-act.js';
+
+// playlist
+export {
+    playNextSong
+} from './playlist-act.js';
 
 // player
 export {
     playMusic,
     pauseMusic,
-    stopMusic,
-    playProgressUpdate,
-    playNextSong,
-    playNextSongSuccess,
-    playNextSongFailure,
-    updatePlaylist,
-    updatePlaylistSuccess,
-    updatePlaylistFailure
-} from './player.js';
+    stopMusic
+} from './player-act.js';
 
-// wx-api
+// 微信 API
 export {
-    authorize,
-    authorizeSuccess,
-    authorizeFailure,
-    openSetting,
-    openSettingSuccess,
-    openSettingFailure,
-    clearStorage,
-    stopPullDownRefresh
-} from './wx-api.js';
+    wxGetUserInfo,
+    wxOpenSetting,
+    wxClearStorage
+} from './wechat-act.js';
 
-// wx-auth
+// Scheduler
 export {
-    getUserInfo,
-    getUserInfoSuccess,
-    getUserInfoFailure
-} from './wx-auth.js';
-
-// wx-ui
-export {
-    navigateTo,
-    navigateBack,
-    showToast,
-    hideToast,
-    showNavigationBarLoading,
-    hideNavigationBarLoading
-} from './wx-ui.js';
-
-
+    startScheduler,
+    stopScheduler
+} from './scheduler-act.js';
