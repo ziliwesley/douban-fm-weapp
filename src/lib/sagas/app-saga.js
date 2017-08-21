@@ -47,6 +47,9 @@ export function* reloadWorker() {
 
         yield call(wx.hideNavigationBarLoading);
 
+        // 收回下拉刷新
+        yield call(wx.stopPullDownRefresh);
+
         yield put(reloadComplete());
     }
 }

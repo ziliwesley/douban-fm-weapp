@@ -12,6 +12,11 @@ npm run start
 
 微信开发者工具中项目路径指向 `dist` 目录即可
 
+
+## 运行截图
+
+![screenshots](./docs/recording.gif)
+
 ### .nvmrc
 
 可以通过 nvm 与 zsh 的集成打到切换目录后自动切换 node.js 版本, 更多参见 [https://github.com/creationix/nvm/blob/master/README.md#nvmrc](https://github.com/creationix/nvm/blob/master/README.md#nvmrc)
