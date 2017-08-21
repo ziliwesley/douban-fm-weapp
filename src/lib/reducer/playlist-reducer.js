@@ -16,6 +16,7 @@ export default handleActions({
     }),
     UPDATE_PLAYLIST_SUCCESS: (state, action) => ({
         ...state,
+        next: 0,
         list: action.payload.map(src => ({
             id: src.sid,
             url: src.url,
