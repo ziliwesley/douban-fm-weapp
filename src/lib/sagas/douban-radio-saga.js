@@ -5,13 +5,13 @@ import { FETCH_CHANNEL_LIST, fetchChannelListSuccess, fetchChannelListFailure,
     fetchChannelListComplete, SWITCH_CHANNEL, switchChannelSuccess, switchChannelFailure,
     ADD_HEART, REMOVE_HEART, NEVER_PLAY, addHeartSuccess, addHeartFailure,
     removeHeartSuccess, removeHeartFailure, neverPlaySuccess, neverPlayFailure,
-    switchChannelComplete
+    NEVER_PLAY_SUCCESS, switchChannelComplete
 } from '../actions/douban-radio-act.js';
-import {
-    updatePlaylist, UPDATE_PLAYLIST_SUCCESS, UPDATE_PLAYLIST_FAILURE,
-    playNextSong, PLAY_NEXT_SONG_SUCCESS, PLAY_NEXT_SONG_FAILURE
-} from '../actions/playlist-act.js';
+import { updatePlaylist, UPDATE_PLAYLIST_SUCCESS, UPDATE_PLAYLIST_FAILURE,
+    updatePlaylistSuccess, playNextSong, PLAY_NEXT_SONG_SUCCESS,
+    PLAY_NEXT_SONG_FAILURE } from '../actions/playlist-act.js';
 import { request } from '../helpers/saga-helpers.js';
+import { getCurrentChannel } from './playlist-saga.js';
 
 const DOUBAN_ACTION_TYPE = {
     HEART: 'r',
@@ -91,15 +91,31 @@ export function* switchChannelWorker({ payload: channelId }) {
 export function createDoubanFeedbackWorker(type, successActionCreator, failureActionCreator) {
     return function* ({ payload: { songId, progress }}) {
         try {
+            const { id } = yield call(getCurrentChannel);
+
             const res = yield call(request, {
                 method: 'GET',
-                url: `https://api.douban.com/v2/fm/playlist?formats=null&pt=${progress.toFixed(3)}&apikey=02f7751a55066bcb08e65f4eff134361&channel=-10&kbps=64&type=${type}&version=651&sid=${songId}&audio_patch_version=4&app_name=radio_android&pb=64&user_accept_play_third_party=1&client=s%3Amobile%7Cv%3A4.6.11%7Cy%3Aandroid+5.1.1%7Cf%3A651%7Cm%3AOPPO%7Cd%3A7e91aa3bc63255a67f8907ec0e6a381c726fb34d%7Ce%3Aoneplus_one_e1001`
+                url: `https://api.douban.com/v2/fm/playlist?formats=null&pt=${progress.toFixed(3)}&apikey=02f7751a55066bcb08e65f4eff134361&channel=${id}&kbps=64&type=${type}&version=651&sid=${songId}&audio_patch_version=4&app_name=radio_android&pb=64&user_accept_play_third_party=1&client=s%3Amobile%7Cv%3A4.6.11%7Cy%3Aandroid+5.1.1%7Cf%3A651%7Cm%3AOPPO%7Cd%3A7e91aa3bc63255a67f8907ec0e6a381c726fb34d%7Ce%3Aoneplus_one_e1001`
             });
+
+            // 需要更新播放列表
+            if (res.song && res.song.length) {
+                yield put(updatePlaylistSuccess(res.song));
+            }
+
             yield put(successActionCreator(res));
         } catch (err) {
             yield put(failureActionCreator(err));
         }
     }
+}
+
+/**
+ * 不再播放歌曲上报完毕后自动播放新的下一首歌曲
+ * @listens {NEVER_PLAY_SUCCESS}
+ */
+export function* afterNeverPlayWorker() {
+    yield put(playNextSong());
 }
 
 /**
@@ -151,4 +167,5 @@ export default function* doubanRadioWatcher() {
     yield takeLatest(ADD_HEART, addHeartWorker);
     yield takeLatest(REMOVE_HEART, removeHeartWorker);
     yield takeLatest(NEVER_PLAY, neverPlayWorker);
+    yield takeLatest(NEVER_PLAY_SUCCESS, afterNeverPlayWorker);
 }

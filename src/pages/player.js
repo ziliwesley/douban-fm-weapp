@@ -72,7 +72,6 @@ Page(connect.Page(
             songId: id,
             progress: 0
         });
-        this.playNextSong();
     },
 
     onStateChange(nextState) {
